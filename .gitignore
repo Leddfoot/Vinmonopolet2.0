@@ -5,6 +5,7 @@ config.js
 exampleStoreReturn
 sample-sales-return-holmen
 stores.js
+vinmonopolet.js
 
 
 # Logs
