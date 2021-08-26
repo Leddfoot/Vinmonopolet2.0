@@ -10,16 +10,6 @@ const vinmonopolet = require(temporaryVinmonopoletfilePath)
 const fetchVinmonopoletfilePath = path.join(__dirname, '/src/components/fetchVinmonopolet.js')
 const fetchVinmonopolet = require(fetchVinmonopoletfilePath)
 
-//////////YOU ARE HERE//////////////
-//////////ok you tried this BELOW with a new file so as not to fuck up working stuff//////////////
-//////////unfortunately this caused an error in create page code//////////////
-////////// data.storeData[0].storeName was undefined with the new file//////////////
-//////////try AGAIN CAREFULLY  TO MOVE  or rename vinmonpolet file //////////////
-// const temporaryVinmonopoletfilePath = path.join(__dirname, '/src/components/fetchVinmonopolet.js')
-// const fetchVinmonopolet = require(temporaryVinmonopoletfilePath)
-
-
-
 const app = express();
 const config = require('./webpack.config.js');
 const compiler = webpack(config);
