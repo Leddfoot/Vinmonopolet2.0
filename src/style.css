@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700&display=swap');
+
+*{
+    margin: 0 auto;
+    padding: 0px;
+    box-sizing: border-box;
+    outline: 1px solid red;
+    text-align: center;
+}
+
+body {
+    font-family: 'Open Sans Condensed', sans-serif;
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;  
+    color: white; 
+      
+}
+#todo {
+    background-color: red;
+    font-size: 6px;
+}
+
+/*start test flex*/
+#time-and-date-element {
+    outline: 1px solid red;
+    display: grid;
+    grid-template-columns: 22% auto 44%;
+}
+
+
+#date-element{
+    display: block;
+    background-color: white;
+    color: black;
+    grid-column: 1/ span 1;
+}
+
+#time-element {
+    display: block;
+    background-color: black;
+    grid-column: 1/ span 1;
+}
+
+#home-store-button-wrapper {    
+    padding:0;
+    margin:0;
+    background-color: green;
+    grid-column:  4/ span 1;
+    grid-row: 1/ span 2;
+    align-self: center;
+}
+
+
+.test-wrapper{    
+    outline: 1px solid red;
+    display: grid;
+    grid-template-columns: 22% auto 22%;    
+}
+
+#home-store-button{
+    width: 100%;
+    padding:0;
+    margin:0;
+    background-color: green;
+    grid-column:  4/ span 1;
+    grid-row: 1/ span 2;
+    align-self: center;
+}
+
+.left-top{
+    display: block;
+    background-color: white;
+    color: black;
+    grid-column: 1/ span 1;
+}
+.left-bottom{
+    display: block;
+    background-color: black;
+    grid-column: 1/ span 1;
+}
+.right{
+    padding:0;
+    margin:0;
+    background-color: green;
+    grid-column:  4/ span 1;
+    grid-row: 1/ span 2;
+    align-self: center;
+
+}
+/*end test flex*/
+
+/* For desktop: */
+@media only screen and (min-width: 1px) {
+
+/* begin test section homestore */
+#test-div {
+    background-color: green;
+    color: yellow;
+    height: 50px;
+}
+
+.fa-solid fa-square-check {
+    outline: 1px solid red;
+    height: 90px;
+    width: 50%;
+    color: white;
+}
+
+/* end test section homestore */
+    
+/* begin main header */
+        #main-header{
+            background-color: whitesmoke;
+            color: black;
+            width: 90%;
+            padding: 20px;
+            margin: 25px auto;
+            border-radius: 17px;
+            font-size: 24px; 
+        }
+    
+        #canvas {
+            height: 115;
+            width: 115;
+            float: right;
+        }
+        
+        #page-title{
+            float: left;
+            font-size: larger;
+        }
+        
+        /*clearfix*/
+        #main-header:after { 
+            content:"";
+            display: table;
+            clear: both;
+        }
+    
+        #main-header {
+            display: flex;
+            align-items: center
+        }
+    
+/* end main header */
+
+/* begin search bar */
+    .input {
+        border: 0;
+        outline: none;
+        background-color: whitesmoke;
+    } 
+
+    .search-wrap {
+        width: 100%;
+        margin: 30px auto;
+    }
+
+    .search-wrap .search-box {
+        position: relative;
+        width: 80%;
+        height: 60px;
+    }
+
+    .search-wrap .search-box .input {
+        position: absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        padding: 10px 20px;
+        border-radius: 7px;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    .search-wrap .search-box .btn.btn-common .fas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .search-wrap .search-box .btn{
+        right: 0;
+        border-top-right-radius: 7px;
+        border-bottom-right-radius: 7px;
+    }
+
+    #search-button {
+        position: absolute;
+        top:0;
+        right:0;
+        width: 60px;
+        height: 100%;
+        background: #333;
+        z-index: 1;
+        cursor: pointer;    
+        border-top-right-radius: 7px;
+        border-bottom-right-radius: 7px;
+    }
+
+    .search-wrap .search-box .btn #search-button:hover {
+        background: black;
+    }
+
+/* end search bar */
+
+/*begin buttons */
+
+    /*clickable buttons (these are the search results)*/
+
+    .clickable {
+        display: block;
+        margin-top: 12px;
+        background-color: whitesmoke;
+        padding: 5px 10px;
+        width: 60%;
+        border-radius: 5px;
+    }
+
+    .clickable:hover {
+        background-color: #333;
+        color: whitesmoke
+    }
+
+    /*all buttons except .clickable */
+    #show-more-results, #search-again-button, #home-store-button {
+        background-color: #333;
+        color: whitesmoke;
+        margin-top: 25px;
+        border-radius: 3px;
+        padding: 10px;
+    }
+
+    #home-store-button {
+        margin: 0;
+        position: absolute;
+        right: 0;       
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    #show-more-results:hover, #search-again-button:hover, #home-store-button:hover {
+        background-color: whitesmoke;
+        color:black
+    }
+
+/*end buttons */
+
+/*#canvas do not set height or width here, glitchy, in js instead*/
+
+/*
+ok, for some reason the time and date elements will not display block
+so either just run them together, date first then time or, try grid display
+*/
+#time-and-date-element {
+    width: 90%;
+    margin-top: 30px;
+    position: relative; /*need this to position the button absolute*/
+}
+
+#time-and-date-element:after {
+    content:"";
+    display: table;
+    clear: both;
+}
+
+#date-wrapper-div {
+    display: block;
+}
+
+#time-wrapper-div {
+    display: block;
+    float:left;
+}
+
+#store-info-content-holder {
+    margin-top: 30px;
+}
+
+
+        
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
