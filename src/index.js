@@ -11,7 +11,7 @@
 
 'use strict'
 import './style.css'
-import { getStoreByName, getallStores } from './components/requests'
+import { getStoreByName, getallStores, getStoresSingleQuery, fetchHomeStore, getHomeStoreQuery } from './components/requests'
 import { renderPageMainElement, renderTestSearch, renderStores, renderStoreAddress, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderHomeStoreBar, renderTimeAndDate, removeDomElements } from './views/createPage'
 import { preferredStore } from './components/preferenceStorage'
 
@@ -49,30 +49,54 @@ renderClockDom()
 renderHomeStoreBar()
 renderTimeAndDate()
 
-const handleSearchQuery = (searchTerm)=>{
-  
+///////////new stuff the way it should be///////////////start
+///////////new stuff the way it should be///////////////
+const handleSearchResults = ()=> {
+  //this will get the final list of data, whether it is multi fetches or just one
   removeDomElements()
   displayingHomeStore = false 
   searchTermIsMultiple = false
   listToPaginate = {}
-  if (haveDownloadedEntireList === true) {
-    console.log('searchTermzzz: ', searchTerm)
-    handleQueryAllInfoIsDownloaded(searchTerm)     
-  } else {
-    console.log('search term at handle' , searchTerm)
-    if (!searchTerm.includes(' ')) {
-      console.log('search term at handle after' , searchTerm)
-      console.log('doesnt include a space')
-      handleSingleQuery(searchTerm)
-    } else {
-          let multipleSearchTerms = handleMultipleSearchTerms.divideSearchTerms(searchTerm)
-          getMultiFetches(multipleSearchTerms)
-    }
-  }
 }
 
+
+//////////////////you are here handleSearchResults/////////////
+//////////////////do i need all this shit that is in handleSearchResults  /////////////
+//////////////////do i need all this shit that is in handleSearchResults/////////////
+//////////////////do i need all this shit that is in handleSearchResults?///////////
+
+//check for multiples is critical here
+const checkForMultipleSearchTerms =()=> searchTermIsMultiple
+
+
+/////gotta control if the entire list is fetched also
+
+///////////new stuff the way it should be///////////////end
+///////////new stuff the way it should be///////////////
+
+
+///////////
+// const handleSearchQuery = (searchTerm)=>{
+  ///OK this needs to be divided//
+  ///first parts are after query results come back
+  //second part should be handled as the query is submitted
+  // removeDomElements()
+  // displayingHomeStore = false 
+  // searchTermIsMultiple = false
+  // listToPaginate = {}
+  // if (haveDownloadedEntireList === true) {
+  //   handleQueryAllInfoIsDownloaded(searchTerm)     
+  // } else {
+  //   if (!searchTerm.includes(' ')) {
+  //     handleSingleQuery(searchTerm)
+  //   } else {
+  //         let multipleSearchTerms = handleMultipleSearchTerms.divideSearchTerms(searchTerm)
+  //         getMultiFetches(multipleSearchTerms)
+  //   }
+  // }
+// }
+
 const handleQueryAllInfoIsDownloaded =(searchTerm)=> {
-  console.log('searchTerm all info dled: ', searchTerm);
   currentListOfStores = entireListOfStores
 if (!searchTerm.includes(' ')) {
   const filteredStoreList = filterResults(entireListOfStores, searchTerm)
@@ -98,22 +122,14 @@ const filterMultiSearches = (multipleSearchTerms) => {
   
 }
 
-const handleSingleQuery = function (searchTerm){
-  console.log('searchTerm from hsq: ', searchTerm);
-    
-    getStoreByName(searchTerm)
-    .then((result) => { 
+const handleSingleQueryResults = function (result, searchTerm){    
       currentListOfStores = [...result]
       handlePossibleMatches(result, searchTerm) 
-    })
+    // })
     // .catch((err) => {
     //  console.log(`Error: ${err}`)
-    // })
- 
+    // }) 
 }
-
-
-
 
 const handleMultipleSearchTerms = (function () {
   return {
@@ -130,12 +146,13 @@ function getMultiFetches (multipleSearchTerms) {
   let fetches = [];
   for (let i = 0; i < multipleSearchTerms.length; i++) {
     fetches.push(
-      getStoreByName(multipleSearchTerms[i],searchTermIsMultiple)
+      getStoresSingleQuery(multipleSearchTerms[i], searchTermIsMultiple)
       .then(result => {
         result.forEach(store => {
           store.searchedFor = multipleSearchTerms[i]
         })
         temporaryArray.push(result)      
+        console.log('temporaryArray: ', temporaryArray);
           }
       )
       .catch(status, err => {return console.log(status, err)})
@@ -179,7 +196,6 @@ const handleMultiMatches =(multiMatches, combinedFetchArrayWODupes) => {
   }    
 }
 
-
 const handlePossibleMatches = (possibleMatches, searchTerm) => {
   if (possibleMatches.length === 1){
     renderStoreAddress(possibleMatches)
@@ -216,16 +232,7 @@ const getNext10OrFewerResults = (currentListOfStores) => {
   renderStores(current10orFewerResults, moreResultsToDisplay, currentListOfStores)  
 }
 
-
-// const filterResults = function (stores, searchTerm){
-//   console.log('stores: ', stores);
-//   console.log('filterResults is temporarily disabled, searchterm is: searchTerm');
-//   return []
-//  }
-
 const filterResults = function (stores, searchTerm){
-  console.log('searchTerm: ', searchTerm);
-  console.log('stores: ', stores);
   return stores.filter(function (store) {
     
     const isCityMatch = store.address.city.toLowerCase().includes(searchTerm.toString().toLowerCase())
@@ -238,33 +245,31 @@ const filterResults = function (stores, searchTerm){
   })
 }
 
-const checkForMultipleSearchTerms =()=> searchTermIsMultiple
-
 const handleHomeStore =() =>{
   let homeStore = preferredStore.initialize()
 
   if (homeStore !== 'none set') {
     displayingHomeStore = true
-    handleSingleQuery(homeStore)
+
+    const testFunction = async ()=> {
+      const test = await getHomeStoreQuery(135)
+      console.log('test: ', test);
+      return test
+    }
+
+    testFunction().then((result) => {
+      renderStoreAddress(result)
+    })
+
   } else {
     displayingHomeStore = false
     renderSearchElement()
-    createSearchEventHandler()
   }
 }
 
 handleHomeStore()
 
-export {handleSearchQuery, checkForMultipleSearchTerms, getNext10OrFewerResults, listToPaginate, setDisplayingHomeStore, getStoreOpenStatus, getDisplayingHomestore, displayingHomeStore, currentListOfStores, setStoreOpenStatus}
-
-
-
-
-
-
-  
- 
-
+export { handleSingleQueryResults, haveDownloadedEntireList, checkForMultipleSearchTerms, getNext10OrFewerResults, listToPaginate, setDisplayingHomeStore, getStoreOpenStatus, getDisplayingHomestore, displayingHomeStore, currentListOfStores, setStoreOpenStatus, handleMultipleSearchTerms, getMultiFetches }
 
 
  

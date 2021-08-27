@@ -10,14 +10,13 @@ export async function getStoreByName(searchTerm) {
 }
 
 const fakeSmallAPIcall = (stores, searchTerm) => {
-  console.log('searchTerm at fake: ', searchTerm);
   return stores.filter(function (store) {    
     const isStoreNameMatch = store.storeName.toLowerCase().includes(searchTerm.toString().toLowerCase())
     return isStoreNameMatch 
   })  
 }
 
-export async function getallStores(searchTerm) {
+export async function getallStores() {
   const storeList = stores
   console.log('fake fetching everything')
    return storeList
@@ -27,4 +26,51 @@ export async function getallStores(searchTerm) {
 //////////////END USE ONLY FOR TESTING/////////////////////////////
 //////////////END USE ONLY FOR TESTING/////////////////////////////
 //////////////END USE ONLY FOR TESTING/////////////////////////////
+import { handleSingleQueryResults } from '../index'
 
+const fetchStoreInfo = async (searchTerm)=> {
+  const response = await fetch('http://localhost:3000/vinmonopolet?city=' + searchTerm)
+  if (response.status === 200) {
+    const data = response.json()
+    return data
+  } else {
+    console.log('ahhh shit')
+  }
+}
+const fetchHomeStore = async (id)=> {
+  const response = await fetch('http://localhost:3000/homestore?id=' + id)
+  if (response.status === 200) {
+    const data = response.json()
+    return data
+  } else {
+    console.log('ahhh shit')
+  }
+}
+
+const getStoresSingleQuery = async (searchTerm, searchTermIsMultiple)=>{
+  const preliminaryResult = await fetchStoreInfo(searchTerm)
+  console.log(fetchStoreInfo(searchTerm));
+  console.log('preliminaryResult: ', preliminaryResult);
+  const result = preliminaryResult.storeData
+  console.log('result: ', result);
+  if (!searchTermIsMultiple) {
+    handleSingleQueryResults(result, searchTerm)
+  } else {
+    return result
+  } 
+ }
+
+ const getHomeStoreQuery = async (searchTerm)=>{
+  const preliminaryResult = await fetchHomeStore(searchTerm)
+  // console.log(fetchStoreInfo(searchTerm));
+  console.log('preliminaryResult: ', preliminaryResult);
+  const result = preliminaryResult.storeData
+  console.log('result: ', result);
+
+    return result
+  
+ }
+
+
+
+  export { fetchStoreInfo, getStoresSingleQuery, fetchHomeStore, getHomeStoreQuery }

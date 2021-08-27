@@ -157,27 +157,32 @@ testSearchForm.addEventListener('submit', (e)=> {
 // const messageOne = document.getElementById('message-one')
 // const messageTwo = document.getElementById('message-two')
 
-const fetchStoreInfo =(searchTerm)=> {
-fetch('http://localhost:3000/vinmonopolet?city=' + searchTerm).then((response) => { //add this back in when this works
-// fetch('http://localhost:3000/vinmonopolet?city=bs').then((response) => {
-    response.json().then((data) => {
-        if (data.error) {
-            console.log('data error: ', data);
-            const messageOne = document.getElementById('message-one')
-            const messageTwo = document.getElementById('message-two')
-            messageOne.textContent = data.error
-            messageTwo.textContent = `Something Fucked up with the fetch `            
-        } else {
-            console.log('gggg', data)
-            const messageOne = document.getElementById('message-one')
-            const messageTwo = document.getElementById('message-two')
-            messageOne.textContent = searchTerm
-            messageTwo.textContent = data.storeData[0].storeName
-        }
+
+////////////you are here move this YOU ARE HERE gonnna move this to external
+
+// const fetchStoreInfo =(searchTerm)=> {
+// fetch('http://localhost:3000/vinmonopolet?city=' + searchTerm).then((response) => { //add this back in when this works
+// // fetch('http://localhost:3000/vinmonopolet?city=bs').then((response) => {
+//     response.json().then((data) => {
+//         if (data.error) {
+//             console.log('data error: ', data);
+//             const messageOne = document.getElementById('message-one')
+//             const messageTwo = document.getElementById('message-two')
+//             messageOne.textContent = data.error
+//             messageTwo.textContent = `Something Fucked up with the fetch `            
+//         } else {
+//             console.log('gggg', data)
+//             const messageOne = document.getElementById('message-one')
+//             const messageTwo = document.getElementById('message-two')
+//             messageOne.textContent = searchTerm
+//             messageTwo.textContent = data.storeData[0].storeName
+//         }
         
-    })
-})
-}
+//     })
+// })
+// }
+
+
 
 ////////////////////from boiler app.js end///////////////////////
 ////////////////////from boiler app.js end///////////////////////
@@ -286,6 +291,7 @@ const renderSearchElement =()=> {
     const pageMainElement = document.getElementById('page-main-element')
     const searchInputForm = generateSearchInputDOM()    
     pageMainElement.appendChild(searchInputForm)
+    createSearchEventHandler() 
 }
 
 const generateStoreDOM = (store) => {
@@ -357,7 +363,8 @@ const generateStoreOpeningHoursText = (storeStatus, store) => {
         let openingHoursElement = generateStoreOpeningHoursDOM(openingHoursText)
         renderStoreOpeningHours(openingHoursElement, store, doNotMakeButtonsNow)
         findNextOpenDay(store, todayNumericVinmonopolet, thisDayHasBeenChecked)
-        decideAndRenderButtons(displayingHomeStore, storeInfoContentHolder, store)
+        // decideAndRenderButtons(displayingHomeStore, storeInfoContentHolder, store)
+        renderSearchAgainButton()
         return
     }
     if(storeStatus.hasOpened === false) {
@@ -379,7 +386,8 @@ const renderStoreOpeningHours =(openingHoursElement, store, doNotMakeButtonsNow)
     let storeInfoContentHolder = document.getElementById('store-info-content-holder')
     storeInfoContentHolder.appendChild(openingHoursElement)
     if (!doNotMakeButtonsNow) {
-        decideAndRenderButtons(displayingHomeStore, storeInfoContentHolder, store)
+        // decideAndRenderButtons(displayingHomeStore, storeInfoContentHolder, store)
+        renderSearchAgainButton()
     }
 }
 
@@ -425,7 +433,8 @@ const renderStoreAddress = (store) => {
     if (filteredHoliday !== null ) {           
         const holidayHoursElement = generateStorehoursHolidayDOM()
         storeInfoContentHolder.appendChild(holidayHoursElement) 
-        decideAndRenderButtons(displayingHomeStore, storeInfoContentHolder, store)
+        // decideAndRenderButtons(displayingHomeStore, storeInfoContentHolder, store)
+        renderSearchAgainButton()
     } else {
         const storeStatus = generateStoreOpenStatus(store)
         generateStoreOpeningHoursText(storeStatus, store)
@@ -433,18 +442,18 @@ const renderStoreAddress = (store) => {
 
 }
 
-const decideAndRenderButtons =(displayingHomeStore, storeInfoContentHolder)=> {
-    let timeAndDateElement = document.getElementById('time-and-date-element')
-     if (displayingHomeStore === false) {
-        let homeStoreButton = generateHomeStoreButtonDom()
-        let searchAgainButton = renderSearchAgainButton()
-        storeInfoContentHolder.appendChild(searchAgainButton)        
-        timeAndDateElement.appendChild(homeStoreButton)
-    } else {
-        let searchAgainButton = renderSearchAgainButton()
-        storeInfoContentHolder.appendChild(searchAgainButton) 
-    }
-}
+// const decideAndRenderButtons =(displayingHomeStore, storeInfoContentHolder)=> {
+//     let timeAndDateElement = document.getElementById('time-and-date-element')
+//      if (displayingHomeStore === false) {
+//         let homeStoreButton = generateHomeStoreButtonDom()
+//         let searchAgainButton = renderSearchAgainButton()
+//         storeInfoContentHolder.appendChild(searchAgainButton)        
+//         timeAndDateElement.appendChild(homeStoreButton)
+//     } else {
+//         let searchAgainButton = renderSearchAgainButton()
+//         storeInfoContentHolder.appendChild(searchAgainButton) 
+//     }
+// }
 
 const renderCountdownElement =(timeRemaining)=>{
 
@@ -462,7 +471,9 @@ const renderCountdownElement =(timeRemaining)=>{
     // if (homeStoreButton !== null) {homeStoreButton.parentElement.removeChild(homeStoreButton)}      
     if (searchAgainButton !== null) {searchAgainButton.parentElement.removeChild(searchAgainButton)} 
    
-    decideAndRenderButtons(displayingHomeStore, storeInfoContentHolder)  
+    // decideAndRenderButtons(displayingHomeStore, storeInfoContentHolder)  
+    renderSearchAgainButton(storeInfoContentHolder)
+
 
     let openingHoursElement = document.getElementById('opening-hours-element')
     countDownElement = document.createElement('span')
@@ -562,20 +573,25 @@ const generateNextOpenInfo =(nextOpeningTime, nextOpeningWeekday) =>{
     storeInfoContentHolder.appendChild(nextOpenHolder)    
 }
 
+
 const renderSearchAgainButton =()=>{
     let searchAgainButton = document.createElement('button')
     searchAgainButton.textContent = 'CHECK ANOTHER STORE'
     searchAgainButton.setAttribute('id', 'search-again-button')
-    // createSearchAgainButtonHandler() //Don't try to move this to event hanlers before removing decide and render buttons
+    
     searchAgainButton.addEventListener("click", (e) => {
         const temporaryStorage = window.sessionStorage
         temporaryStorage.clear()
         displayingIndividualStore = false
         removeDomElements()
-        renderSearchElement()
-        createSearchEventHandler()        
+        renderSearchElement()     
     })
-    return searchAgainButton
+    ////////////////////temporary////////////////
+    ////////////////////temporary////////////////
+    const storeInfoContentHolder = document.getElementById('store-info-content-holder')
+        ////////////////////temporary////////////////
+    ////////////////////temporary////////////////
+    storeInfoContentHolder.appendChild(searchAgainButton)
 }
 
 const renderHomeStoreBar =()=> {
@@ -688,7 +704,7 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
   
     clickableElements.forEach((button)=> {
     button.addEventListener("click", (event) => {
-        e.preventDefault()
+        event.preventDefault()
         selectThisStore(event.target.id, currentListOfStores) 
         
     })
@@ -699,7 +715,7 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
         showMoreResultsButton.setAttribute('id', 'show-more-results')
         showMoreResultsButton.textContent = 'SHOW MORE RESULTS'
         storeInfoContentHolder.appendChild(showMoreResultsButton) 
-        showMoreResultsButton.addEventListener('click', ()=> {
+        showMoreResultsButton.addEventListener('click', (e)=> {
             ///append
             e.preventDefault()
             getNext10OrFewerResults(currentListOfStores)
