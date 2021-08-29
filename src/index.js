@@ -65,6 +65,12 @@ const handleSearchResults = ()=> {
 //////////////////do i need all this shit that is in handleSearchResults/////////////
 //////////////////do i need all this shit that is in handleSearchResults?///////////
 
+
+//////////////////****************BUT FIRST GIT11!!!!!!!!!!!!!!!!!!!!! */
+//////YOU COMMITTED THIS BRANCH AND I THINGK YOU NEED TO GO TO MASTER BRANCH AND THEN
+///GIT MERGE FIRSTRESTRUCTURE???????????
+////               MOST IMPORTANT .........DO WHEN NOT FRIED
+
 //check for multiples is critical here
 const checkForMultipleSearchTerms =()=> searchTermIsMultiple
 
