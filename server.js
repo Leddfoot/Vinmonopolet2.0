@@ -16,16 +16,9 @@ const app = express();
 const config = require('./webpack.config.js');
 const compiler = webpack(config);
 
-
-/////////////temporary test below, good code further below/////////////////
-/////////////temporary test below, good code further below/////////////////
-/////////////temporary test below, good code further below/////////////////
-
-//////////////you are here//////
-//////////////I think that you will have to mack a new url like below, app.get('/homestore//////
-/////////but also you will need a new fetchVinmonopolet?
-//////////////you are here//////
-
+/////////////temporary test above, good code further below/////////////////
+/////////////temporary test above, good code further below/////////////////
+/////////////temporary test above, good code further below/////////////////
 
 app.get('/homestore', (req, res) => {
   if (!req.query.id) {
@@ -49,15 +42,6 @@ app.get('/homestore', (req, res) => {
   })
 
 })
-/////////////temporary test above, good code further below/////////////////
-/////////////temporary test above, good code further below/////////////////
-/////////////temporary test above, good code further below/////////////////
-
-
-
-
-//////////working copy belowapp.get('/vinmonopolet'
-//////////working copy below
 app.get('/vinmonopolet', (req, res) => {
   if (!req.query.city) {
       return res.send({

@@ -25,20 +25,26 @@ let displayingHomeStore = false
 let selectedStoreIsOpen = false
 let currentListOfStores = {}
 
-const getDisplayingHomestore =()=>{ //used for deciding whether or not to render the 'make this my home store button'
-  return displayingHomeStore
-}
-
-const setDisplayingHomeStore = (status)=> {
-  displayingHomeStore = status
-}
-const getStoreOpenStatus =()=>{ //used for deciding if the countdown timer needs to be displayed
-  return selectedStoreIsOpen
-}
-
 const setStoreOpenStatus = (status)=> {
   selectedStoreIsOpen = status
 }
+const setDisplayingHomeStore = (status)=> {
+  displayingHomeStore = status
+}
+const setSearchTermIsMultiple = (status)=> {
+  searchTermIsMultiple = status
+}
+const setHaveDownloadedEntireList = (status)=> {
+  haveDownloadedEntireList = status
+}
+
+const getSearchTermIsMultiple =()=> searchTermIsMultiple
+const getDisplayingHomestore =()=> displayingHomeStore //used for deciding whether or not to render the 'make this my home store button'
+const getStoreOpenStatus =()=> selectedStoreIsOpen //used for deciding if the countdown timer needs to be displayed
+const getHaveDownloadedEntireList =()=> haveDownloadedEntireList //used for deciding if the countdown timer needs to be displayed
+  
+
+
 
 renderPageMainElement()
 //////////temporary////////////////////
@@ -49,71 +55,22 @@ renderClockDom()
 renderHomeStoreBar()
 renderTimeAndDate()
 
-///////////new stuff the way it should be///////////////start
-///////////new stuff the way it should be///////////////
-const handleSearchResults = ()=> {
-  //this will get the final list of data, whether it is multi fetches or just one
-  removeDomElements()
-  displayingHomeStore = false 
-  searchTermIsMultiple = false
-  listToPaginate = {}
-}
-
-
-//////////////////you are here handleSearchResults/////////////
-//////////////////do i need all this shit that is in handleSearchResults  /////////////
-//////////////////do i need all this shit that is in handleSearchResults/////////////
-//////////////////do i need all this shit that is in handleSearchResults?///////////
-
-
-//////////////////****************BUT FIRST GIT11!!!!!!!!!!!!!!!!!!!!! */
-//////YOU COMMITTED THIS BRANCH AND I THINGK YOU NEED TO GO TO MASTER BRANCH AND THEN
-///GIT MERGE FIRSTRESTRUCTURE???????????
-////               MOST IMPORTANT .........DO WHEN NOT FRIED
-
-//check for multiples is critical here
-const checkForMultipleSearchTerms =()=> searchTermIsMultiple
-
-
 /////gotta control if the entire list is fetched also
 
-///////////new stuff the way it should be///////////////end
-///////////new stuff the way it should be///////////////
-
-
-///////////
-// const handleSearchQuery = (searchTerm)=>{
-  ///OK this needs to be divided//
-  ///first parts are after query results come back
-  //second part should be handled as the query is submitted
-  // removeDomElements()
-  // displayingHomeStore = false 
-  // searchTermIsMultiple = false
-  // listToPaginate = {}
-  // if (haveDownloadedEntireList === true) {
-  //   handleQueryAllInfoIsDownloaded(searchTerm)     
-  // } else {
-  //   if (!searchTerm.includes(' ')) {
-  //     handleSingleQuery(searchTerm)
-  //   } else {
-  //         let multipleSearchTerms = handleMultipleSearchTerms.divideSearchTerms(searchTerm)
-  //         getMultiFetches(multipleSearchTerms)
-  //   }
-  // }
-// }
 
 const handleQueryAllInfoIsDownloaded =(searchTerm)=> {
-  currentListOfStores = entireListOfStores
-if (!searchTerm.includes(' ')) {
+  removeDomElements()
+  searchTermIsMultiple = getSearchTermIsMultiple()
+
+if (!searchTermIsMultiple) {
   const filteredStoreList = filterResults(entireListOfStores, searchTerm)
   handlePossibleMatches(filteredStoreList)
-} else {
-  searchTermIsMultiple = true
-  let multipleSearchTerms = handleMultipleSearchTerms.divideSearchTerms(searchTerm)
-  const filteredStoreListMultSearch = filterMultiSearches(multipleSearchTerms)
-  const combinedFilteredArray = [].concat(...filteredStoreListMultSearch)
-  handlePossibleMatches(combinedFilteredArray)
-} 
+  } else {
+    let multipleSearchTerms = handleMultipleSearchTerms.divideSearchTerms(searchTerm)
+    const filteredStoreListMultSearch = filterMultiSearches(multipleSearchTerms)
+    const combinedFilteredArray = [].concat(...filteredStoreListMultSearch)
+    handlePossibleMatches(combinedFilteredArray)
+  } 
 }
 
 const filterMultiSearches = (multipleSearchTerms) => {
@@ -217,7 +174,7 @@ const handlePossibleMatches = (possibleMatches, searchTerm) => {
     getallStores(searchTerm)
     .then((result) => {
     console.log('have downloaded entire list')
-    haveDownloadedEntireList = true
+    setHaveDownloadedEntireList(true)
     entireListOfStores = result             
     possibleMatches = filterResults(entireListOfStores, searchTerm)       
     handlePossibleMatches(possibleMatches)
@@ -275,7 +232,7 @@ const handleHomeStore =() =>{
 
 handleHomeStore()
 
-export { handleSingleQueryResults, haveDownloadedEntireList, checkForMultipleSearchTerms, getNext10OrFewerResults, listToPaginate, setDisplayingHomeStore, getStoreOpenStatus, getDisplayingHomestore, displayingHomeStore, currentListOfStores, setStoreOpenStatus, handleMultipleSearchTerms, getMultiFetches }
+export { handleQueryAllInfoIsDownloaded, handleSingleQueryResults, getHaveDownloadedEntireList, haveDownloadedEntireList, getSearchTermIsMultiple, getNext10OrFewerResults, setSearchTermIsMultiple, listToPaginate, setDisplayingHomeStore, getStoreOpenStatus, getDisplayingHomestore, displayingHomeStore, currentListOfStores, setStoreOpenStatus, handleMultipleSearchTerms, getMultiFetches }
 
 
  

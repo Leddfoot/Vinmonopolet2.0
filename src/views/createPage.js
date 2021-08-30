@@ -1,6 +1,6 @@
 import { setSelectedStoreHolidays, filteredHoliday, todayDateForDisplay, generateStoreOpenStatus, convertTimeStringToProperDate, formatCurrentTime, getTodayNumericConvertedToVinmonpolet } from '../components/dateCalculations'
 import { preferredStore } from '../components/preferenceStorage'
-import { checkForMultipleSearchTerms, getNext10OrFewerResults, setDisplayingHomeStore, getDisplayingHomestore, getStoreOpenStatus } from '../index'
+import { getSearchTermIsMultiple, getNext10OrFewerResults, setDisplayingHomeStore, getDisplayingHomestore, getStoreOpenStatus } from '../index'
 import { createSearchEventHandler } from '../components/searchEventHandler'
 import { generateClock } from '../components/clock'
 
@@ -92,21 +92,6 @@ const renderTimeAndDate =() => {
     pageMainElement.appendChild(timeAndDateElement)
 }
 
-
-
-/////////////////////////////you are here//////////////////////
-/////////////////////////////you are here//////////////////////
-/////////////////////////////all of the functions below need to be put in the right place//////////////////////
-/////////////////////////////!!!wire the fancy search box up to this new code!!//////////////////////
-/////////////////////////////then styling//////////////////////
-/////////////////////////////you are here//////////////////////
-/////////////////////////////you are here//////////////////////
-
-////////////////////from boiler app.js begin///////////////////////
-////////////////////from boiler app.js begin///////////////////////
-
-/////////////////////////////////////ggggg start////////////////
-
 const renderTestSearch=()=>{
     const bsdiv = document.createElement('div')
 
@@ -151,44 +136,6 @@ testSearchForm.addEventListener('submit', (e)=> {
 })
 
 }
-
-/////////////////////////////////////ggggg end////////////////
-
-// const messageOne = document.getElementById('message-one')
-// const messageTwo = document.getElementById('message-two')
-
-
-////////////you are here move this YOU ARE HERE gonnna move this to external
-
-// const fetchStoreInfo =(searchTerm)=> {
-// fetch('http://localhost:3000/vinmonopolet?city=' + searchTerm).then((response) => { //add this back in when this works
-// // fetch('http://localhost:3000/vinmonopolet?city=bs').then((response) => {
-//     response.json().then((data) => {
-//         if (data.error) {
-//             console.log('data error: ', data);
-//             const messageOne = document.getElementById('message-one')
-//             const messageTwo = document.getElementById('message-two')
-//             messageOne.textContent = data.error
-//             messageTwo.textContent = `Something Fucked up with the fetch `            
-//         } else {
-//             console.log('gggg', data)
-//             const messageOne = document.getElementById('message-one')
-//             const messageTwo = document.getElementById('message-two')
-//             messageOne.textContent = searchTerm
-//             messageTwo.textContent = data.storeData[0].storeName
-//         }
-        
-//     })
-// })
-// }
-
-
-
-////////////////////from boiler app.js end///////////////////////
-////////////////////from boiler app.js end///////////////////////
-
-/////////////////temporary todo and styled fa search stuff//start/////////
-/////////////////temporary todo and styled fa search stuff///////////
 
 const renderTempBullshit =()=>{
     const todoDiv = document.createElement('div')
@@ -683,7 +630,7 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
         pageMainElement.appendChild(storeInfoContentHolder)
     }
 
-    let addSearchedFor = checkForMultipleSearchTerms()
+    let addSearchedFor = getSearchTermIsMultiple()
 
         if (addSearchedFor) {
             stores.forEach((store) => {
