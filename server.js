@@ -51,11 +51,7 @@ app.get('/vinmonopolet', (req, res) => {
 
   const searchTerm = req.query.city
 
-  // vinmonopolet(searchTerm, (error, storeData) => {
-  //     if (error) {
-  //         return res.send({ error })
-  //     }
-  fetchVinmonopolet(searchTerm, (error, storeData) => {
+  fetchVinmonopolet(searchTerm, req.query.getallstores, (error, storeData) => {
     if (error) {
         return res.send({ error })
     }
@@ -67,12 +63,6 @@ app.get('/vinmonopolet', (req, res) => {
   })
 
 })
-
-//////////working copy above app.get('/vinmonopolet'
-//////////working copy above app.get('/vinmonopolet'
-//////////working copy above app.get('/vinmonopolet'
-
-
 
 ////////////////////////////////////////////////////////////////////////
 // app.get('/fetchvinmonopolet', (req, res) => {

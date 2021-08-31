@@ -344,7 +344,7 @@ const makeCurrentlyDisplayedStorePersisent = (store)=>{
 }
 
 const renderStoreAddress = (store) => { 
-    
+    // console.log('store: ', store);
     if (store[0].storeId === '801') {
         renderNoStoresFound()
         return
@@ -587,7 +587,7 @@ const generateSelectStoreDOMWithSearchTerm = (store) => {
     let storeElement = document.createElement('button')
     storeElement.textContent =  `${store.storeName}`  
     storeElement.setAttribute('id', store.storeId) 
-    storeElement.textContent += `Contains: ${store.searchedFor}`   
+    storeElement.textContent += ` Contains: ${store.searchedFor}`   
     storeElement.classList.add('clickable')
 
     return storeElement
@@ -605,6 +605,7 @@ const generateSelectStoreDOM = (store) => {
 }
 
 const selectThisStore =(id, stores)=> {
+    // console.log('stores: ', stores);
     removeDomElements()
     let filteredStore = stores.filter(store => store.storeId === id)    
     renderStoreAddress(filteredStore)
@@ -653,6 +654,7 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
     button.addEventListener("click", (event) => {
         event.preventDefault()
         selectThisStore(event.target.id, currentListOfStores) 
+        console.log('currentListOfStores: ', currentListOfStores);
         
     })
     })
@@ -682,7 +684,6 @@ const renderNoStoresFound =()=> {
 const removeDomElements = (elementsToDestroy) => {
     let toDestroy
     if (elementsToDestroy === 'home-store-button') {
-        debugger
         toDestroy = document.getElementById('home-store-button-wrapper')
         // toDestroy = document.getElementById('home-store-button')
  

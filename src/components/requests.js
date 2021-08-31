@@ -22,26 +22,39 @@ export async function getallStores() {
    return storeList
  }
 
- /////////////////YOU ARE HERE////////
- /////////////////GONNA have to make one more fetch it seems////////
- /////////////////you have been fetching the entire set from the list of stores that is downloaded////////
- /////////////////but you need to query the api ;) ////////
+ ////
 
 //////////////END USE ONLY FOR TESTING/////////////////////////////
 //////////////END USE ONLY FOR TESTING/////////////////////////////
 //////////////END USE ONLY FOR TESTING/////////////////////////////
 //////////////END USE ONLY FOR TESTING/////////////////////////////
-import { handleSingleQueryResults } from '../index'
+import { handleSingleQueryResults, setEntireListOfStores } from '../index'
 
-const fetchStoreInfo = async (searchTerm)=> {
-  const response = await fetch('http://localhost:3000/vinmonopolet?city=' + searchTerm)
+const fetchStoreInfo = async (searchTerm, getAllStores)=> {
+  // console.log('getAllStores: ', getAllStores);
+  let url = 'http://localhost:3000/vinmonopolet?city=' + searchTerm
+  if (getAllStores) {
+    url += '&getallstores=true'
+  }
+
+  const response = await fetch(url)
   if (response.status === 200) {
     const data = response.json()
     return data
   } else {
-    console.log('ahhh shit')
+    console.log('Problem with our server')
   }
 }
+// const fetchStoreInfo = async (searchTerm)=> {
+//   const response = await fetch('http://localhost:3000/vinmonopolet?city=' + searchTerm)
+//   if (response.status === 200) {
+//     const data = response.json()
+//     return data
+//   } else {
+//     console.log('Problem with our server')
+//   }
+// }
+
 const fetchHomeStore = async (id)=> {
   const response = await fetch('http://localhost:3000/homestore?id=' + id)
   if (response.status === 200) {
@@ -52,18 +65,35 @@ const fetchHomeStore = async (id)=> {
   }
 }
 
-const getStoresSingleQuery = async (searchTerm, searchTermIsMultiple)=>{
-  const preliminaryResult = await fetchStoreInfo(searchTerm)
-  console.log(fetchStoreInfo(searchTerm));
-  console.log('preliminaryResult: ', preliminaryResult);
+const getStoresSingleQuery = async (searchTerm, searchTermIsMultiple, getAllStores)=>{
+  // console.log('getAllStores in gssq: ', getAllStores);
+  const preliminaryResult = await fetchStoreInfo(searchTerm , getAllStores)
+  // console.log('preliminaryResult: ', preliminaryResult);
   const result = preliminaryResult.storeData
-  console.log('result: ', result);
+  // console.log('result: ', result);
+  if (getAllStores) {
+    setEntireListOfStores(result)
+    return
+  }
+
   if (!searchTermIsMultiple) {
     handleSingleQueryResults(result, searchTerm)
   } else {
     return result
   } 
  }
+// const getStoresSingleQuery = async (searchTerm, searchTermIsMultiple, getAllStores)=>{
+//   console.log('getAllStores in gssq: ', getAllStores);
+//   const preliminaryResult = await fetchStoreInfo(searchTerm , getAllStores)
+//   console.log('preliminaryResult: ', preliminaryResult);
+//   const result = preliminaryResult.storeData
+//   console.log('result: ', result);
+//   if (!searchTermIsMultiple) {
+//     handleSingleQueryResults(result, searchTerm)
+//   } else {
+//     return result
+//   } 
+//  }
 
  const getHomeStoreQuery = async (searchTerm)=>{
   const preliminaryResult = await fetchHomeStore(searchTerm)

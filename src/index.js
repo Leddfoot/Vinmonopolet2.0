@@ -37,12 +37,15 @@ const setSearchTermIsMultiple = (status)=> {
 const setHaveDownloadedEntireList = (status)=> {
   haveDownloadedEntireList = status
 }
+const setEntireListOfStores = (stores)=> {
+  entireListOfStores = stores
+}
 
 const getSearchTermIsMultiple =()=> searchTermIsMultiple
 const getDisplayingHomestore =()=> displayingHomeStore //used for deciding whether or not to render the 'make this my home store button'
 const getStoreOpenStatus =()=> selectedStoreIsOpen //used for deciding if the countdown timer needs to be displayed
 const getHaveDownloadedEntireList =()=> haveDownloadedEntireList //used for deciding if the countdown timer needs to be displayed
-  
+const getentireListOfStores =()=> entireListOfStores
 
 
 
@@ -171,11 +174,21 @@ const handlePossibleMatches = (possibleMatches, searchTerm) => {
   } else if (haveDownloadedEntireList === true ){
     renderNoStoresFound()
   } else {
-    getallStores(searchTerm)
-    .then((result) => {
+    getStoresSingleQuery(searchTerm, searchTermIsMultiple ,true)
+    .then(() => {
+
+      ////////////////////you ARE HERE/////////////////////////////////////////////
+      ////////////////////THE DL ENTIRE LIST WORKS NOW BUT /////////////////////////////////////////////
+      ////////////////////THERE IS A GLITCH WHEN IT FINDS MULTIPLE RESULTS/////////////////////////////////////////////
+      ////////////////////FOR EXAMPLE WHEN YOU SEARCH FOR OSLO AFTER SEARCHING FOR ZZ/////////////////////////////////////////////
+      ////////////////////YOU WILL GET AN ERROR ON CREATEPAGE LINE NUMBER 348/////////////////////////////////////////////
+      ////////////////////you ARE HERE/////////////////////////////////////////////
+      ////////////////////you ARE HERE/////////////////////////////////////////////
     console.log('have downloaded entire list')
-    setHaveDownloadedEntireList(true)
-    entireListOfStores = result             
+    setHaveDownloadedEntireList(true)           
+    entireListOfStores = getentireListOfStores()      
+    currentListOfStores = entireListOfStores     
+    // console.log('entireListOfStores: ', entireListOfStores);
     possibleMatches = filterResults(entireListOfStores, searchTerm)       
     handlePossibleMatches(possibleMatches)
     })
@@ -216,7 +229,6 @@ const handleHomeStore =() =>{
 
     const testFunction = async ()=> {
       const test = await getHomeStoreQuery(135)
-      console.log('test: ', test);
       return test
     }
 
@@ -232,7 +244,7 @@ const handleHomeStore =() =>{
 
 handleHomeStore()
 
-export { handleQueryAllInfoIsDownloaded, handleSingleQueryResults, getHaveDownloadedEntireList, haveDownloadedEntireList, getSearchTermIsMultiple, getNext10OrFewerResults, setSearchTermIsMultiple, listToPaginate, setDisplayingHomeStore, getStoreOpenStatus, getDisplayingHomestore, displayingHomeStore, currentListOfStores, setStoreOpenStatus, handleMultipleSearchTerms, getMultiFetches }
+export { setEntireListOfStores, handleQueryAllInfoIsDownloaded, handleSingleQueryResults, getHaveDownloadedEntireList, haveDownloadedEntireList, getSearchTermIsMultiple, getNext10OrFewerResults, setSearchTermIsMultiple, listToPaginate, setDisplayingHomeStore, getStoreOpenStatus, getDisplayingHomestore, displayingHomeStore, currentListOfStores, setStoreOpenStatus, handleMultipleSearchTerms, getMultiFetches }
 
 
  
