@@ -95,65 +95,53 @@ const renderTestSearch=()=>{
     const bsdiv = document.createElement('div')
 
 pageMainElement = document.getElementById('page-main-element')
-const testButton = document.createElement('button')
-const testSearchForm = document.createElement('form')
-const testSearchInput = document.createElement('input')
+// const testButton = document.createElement('button')
+// const testSearchForm = document.createElement('form')
+// const testSearchInput = document.createElement('input')
 
-testSearchForm.setAttribute('id', 'test-search-form')
-testSearchInput.setAttribute('id', 'test-search-input')
-testSearchInput.setAttribute('label', 'some bullshit')
-testButton.textContent = 'some bullshit'
-bsdiv.appendChild(testSearchForm)
-testSearchForm.appendChild(testSearchInput)
-testSearchForm.appendChild(testButton)
+// testSearchForm.setAttribute('id', 'test-search-form')
+// testSearchInput.setAttribute('id', 'test-search-input')
+// testSearchInput.setAttribute('label', 'some bullshit')
+// testButton.textContent = 'some bullshit'
+// bsdiv.appendChild(testSearchForm)
+// testSearchForm.appendChild(testSearchInput)
+// testSearchForm.appendChild(testButton)
 
 
-const messageOne = document.createElement('div')
-const messageTwo = document.createElement('div')
-messageOne.setAttribute('id', 'message-one')
-messageTwo.setAttribute('id', 'message-two')
-messageOne.textContent = 'zzzzzzzzzzzzzz'
-messageTwo.textContent = 'zzzzzzzzzzzzzz'
-bsdiv.appendChild(messageOne)
-bsdiv.appendChild(messageTwo)
+// const messageOne = document.createElement('div')
+// const messageTwo = document.createElement('div')
+// messageOne.setAttribute('id', 'message-one')
+// messageTwo.setAttribute('id', 'message-two')
+// messageOne.textContent = 'zzzzzzzzzzzzzz'
+// messageTwo.textContent = 'zzzzzzzzzzzzzz'
+// bsdiv.appendChild(messageOne)
+// bsdiv.appendChild(messageTwo)
 pageMainElement.appendChild(bsdiv)
 renderTempBullshit()
 
 
-testSearchForm.addEventListener('submit', (e)=> {
-    e.preventDefault()
-    let preliminarySearchTerm = testSearchInput.value
-    ////////////
-    messageOne.textContent = `Searching For ${preliminarySearchTerm}`
-    messageTwo.textContent = `LOADING LOADING `
-    ///////////
-    const searchTerm = preliminarySearchTerm.trim().toLowerCase()
-    console.log('searchTerm: ', searchTerm);
-    fetchStoreInfo(searchTerm)
+// testSearchForm.addEventListener('submit', (e)=> {
+//     e.preventDefault()
+//     let preliminarySearchTerm = testSearchInput.value
+//     ////////////
+//     messageOne.textContent = `Searching For ${preliminarySearchTerm}`
+//     messageTwo.textContent = `LOADING LOADING `
+//     ///////////
+//     const searchTerm = preliminarySearchTerm.trim().toLowerCase()
+//     console.log('searchTerm: ', searchTerm);
+//     fetchStoreInfo(searchTerm)
    
 
-})
+// })
 
 }
 
 const renderTempBullshit =()=>{
-    const todoDiv = document.createElement('div')
-    todoDiv.setAttribute('id', 'todo')
+  
 
-    const todoP = document.createElement('p')
-    const todoP1 = document.createElement('p')
-    const todoP2 = document.createElement('p')
+ 
 
-    todoP1.textContent = 'ADD A FOOTER WITH COPYRIGHT'
-    todoDiv.appendChild(todoP1)
-
-    todoP.textContent = 'REWORK- THE HOME STORE BUTTON IS GONNA BE ADDED TO THE TIME AND DATE ELEMENT, THIS AFFECTS destroy()and DECIDEANDRENDERBUTTONS() , decide and render() PROBABLY UNNECESSARY '
-    todoDiv.appendChild(todoP)
-
-    todoP2.textContent = 'countdown timer ends before the clock '
-    todoDiv.appendChild(todoP2)
-
-    pageMainElement.appendChild(todoDiv)
+  
 
     ///////fa test//////start//////
     ///////fa test////////////
