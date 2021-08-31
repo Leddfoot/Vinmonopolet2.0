@@ -48,8 +48,6 @@ const renderClockDom =()=> {
     mainHeader.appendChild(clock)
 }
 
-
-
 const generateTimeAndDateDOM =()=> {
     let timeAndDateElement = document.createElement('div')
     let timeWrapperDiv = document.createElement('div')
