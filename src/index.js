@@ -11,11 +11,10 @@
 
 'use strict'
 import './style.css'
-import { getStoreByName, getallStores, getStoresSingleQuery, fetchHomeStore, getHomeStoreQuery } from './components/requests'
+import { getStoresSingleQuery, getHomeStoreQuery } from './components/requests'
 import { renderPageMainElement, renderTestSearch, renderStores, renderStoreAddress, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderHomeStoreBar, renderTimeAndDate, removeDomElements } from './views/createPage'
 import { preferredStore } from './components/preferenceStorage'
 
-let searchTerm
 let haveDownloadedEntireList = false
 let searchTermIsMultiple = false
 let moreResultsToDisplay = false
@@ -47,8 +46,6 @@ const getStoreOpenStatus =()=> selectedStoreIsOpen //used for deciding if the co
 const getHaveDownloadedEntireList =()=> haveDownloadedEntireList //used for deciding if the countdown timer needs to be displayed
 const getentireListOfStores =()=> entireListOfStores
 
-
-
 renderPageMainElement()
 //////////temporary////////////////////
 renderTestSearch()
@@ -57,9 +54,6 @@ renderHeader()
 renderClockDom()
 renderHomeStoreBar()
 renderTimeAndDate()
-
-/////gotta control if the entire list is fetched also
-
 
 const handleQueryAllInfoIsDownloaded =(searchTerm)=> {
   removeDomElements()
@@ -84,17 +78,12 @@ const filterMultiSearches = (multipleSearchTerms) => {
     store.searchedFor = multipleSearchTerms[i]
     })
   }
-  return filteredStoreListMultSearch 
-  
+  return filteredStoreListMultSearch   
 }
 
 const handleSingleQueryResults = function (result, searchTerm){    
       currentListOfStores = [...result]
       handlePossibleMatches(result, searchTerm) 
-    // })
-    // .catch((err) => {
-    //  console.log(`Error: ${err}`)
-    // }) 
 }
 
 const handleMultipleSearchTerms = (function () {
@@ -154,7 +143,7 @@ const handleMultiMatches =(multiMatches, combinedFetchArrayWODupes) => {
     let storeToBeModified = combinedFetchArrayWODupes.find((store)=>{ 
       return store.storeId = storeId
     } )
-    storeToBeModified.searchedFor = 'multiple matching search terms'
+    storeToBeModified.searchedFor = 'matches multiple words searched for'
     const storeObjectToBeMovedPosition = combinedFetchArrayWODupes.indexOf(storeToBeModified)      
     let storeToBeMoved = combinedFetchArrayWODupes.splice(storeObjectToBeMovedPosition, 1)      
     combinedFetchArrayWODupes.unshift(storeToBeMoved[0])
@@ -176,25 +165,15 @@ const handlePossibleMatches = (possibleMatches, searchTerm) => {
   } else {
     getStoresSingleQuery(searchTerm, searchTermIsMultiple ,true)
     .then(() => {
-
-      ////////////////////you ARE HERE/////////////////////////////////////////////
-      ////////////////////THE DL ENTIRE LIST WORKS NOW BUT /////////////////////////////////////////////
-      ////////////////////THERE IS A GLITCH WHEN IT FINDS MULTIPLE RESULTS/////////////////////////////////////////////
-      ////////////////////FOR EXAMPLE WHEN YOU SEARCH FOR OSLO AFTER SEARCHING FOR ZZ/////////////////////////////////////////////
-      ////////////////////YOU WILL GET AN ERROR ON CREATEPAGE LINE NUMBER 348/////////////////////////////////////////////
-      ////////////////////you ARE HERE/////////////////////////////////////////////
-      ////////////////////you ARE HERE/////////////////////////////////////////////
     console.log('have downloaded entire list')
     setHaveDownloadedEntireList(true)           
     entireListOfStores = getentireListOfStores()      
     currentListOfStores = entireListOfStores     
-    // console.log('entireListOfStores: ', entireListOfStores);
     possibleMatches = filterResults(entireListOfStores, searchTerm)       
     handlePossibleMatches(possibleMatches)
+    }).catch((err) => {
+    console.log(`Error: ${err}`)
     })
-    // .catch((err) => {
-    // console.log(`Error: ${err}`)
-    // })
   }
 }
 

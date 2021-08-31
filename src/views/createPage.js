@@ -12,7 +12,8 @@ const renderPageMainElement = ()=> {
     const htmlBody = document.querySelector('body')
     htmlBody.appendChild(pageMainElement)
 }
- let pageMainElement = document.getElementById('page-main-element')
+
+let pageMainElement = document.getElementById('page-main-element')
 
 const generateHeaderDOM = () => {
     const headerElement = document.createElement('header')
@@ -34,8 +35,8 @@ const renderHeader =() => {
 const generateClockDom=()=>{
     let canvas = document.createElement('canvas')
     canvas.setAttribute('id', 'canvas')
-    canvas.setAttribute('width', '115')
-    canvas.setAttribute('height', '115')
+    canvas.setAttribute('width', '60')
+    canvas.setAttribute('height', '60')
     canvas.setAttribute('aria-label', 'clock with current time')
     generateClock(canvas)
     return canvas
