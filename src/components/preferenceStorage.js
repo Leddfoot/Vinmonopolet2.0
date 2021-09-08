@@ -4,10 +4,10 @@ let preferredStore = {
             return this.getHomeStore()  
         }
     }, getHomeStore: function () {
-        return localStorage.getItem("homeStoreName") || 'none set'
+        return localStorage.getItem("homeStoreId") || 'none set'
         // return 'none set' //temporary testing
-    }, setHomeStore: function (storeName) {     
-        localStorage.setItem("homeStoreName", storeName)
+    }, setHomeStore: function (storeId) {     
+        localStorage.setItem("homeStoreId", storeId)
     }
 }
 

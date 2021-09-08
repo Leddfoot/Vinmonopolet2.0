@@ -8,12 +8,12 @@ module.exports = {
       },
     devtool: 'inline-source-map',
     devServer: {
-        static: './dist'
+        static: './dist',
     },
     plugins: [
         new HtmlWebpackPlugin ({
             title: 'Development',
-        }),
+        })
     ],  
   output: {
     filename: '[name].bundle.js',

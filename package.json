@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "private": "true",
-  "scripts": {
-    "testscript": "node server.js webpack serve --open",
+  "scripts": {    
+    "testscript": "node server.js node start",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "webpack serve --open",
+    "start": "webpack serve --open --port 3000",
     "server": "node server.js"
   },
   "keywords": [],
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "postman-request": "^2.88.1-postman.30"
+    "postman-request": "^2.88.1-postman.30",
+    "webpack-hot-middleware": "^2.25.0"
   }
 }

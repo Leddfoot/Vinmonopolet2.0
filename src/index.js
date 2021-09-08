@@ -12,7 +12,7 @@
 'use strict'
 import './style.css'
 import { getStoresSingleQuery, getHomeStoreQuery } from './components/requests'
-import { renderPageMainElement, renderTestSearch, renderStores, renderStoreAddress, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderHomeStoreBar, renderTimeAndDate, removeDomElements } from './views/createPage'
+import { renderHomeStoreButton, renderScriptTag, renderPageMainElement, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderHomeStoreBar, renderTimeAndDate, removeDomElements } from './views/createPage'
 import { preferredStore } from './components/preferenceStorage'
 
 let haveDownloadedEntireList = false
@@ -20,7 +20,7 @@ let searchTermIsMultiple = false
 let moreResultsToDisplay = false
 let listToPaginate = []
 let entireListOfStores = {}
-let displayingHomeStore = false
+let displayingHomeStore = true
 let selectedStoreIsOpen = false
 let currentListOfStores = {}
 
@@ -47,13 +47,11 @@ const getHaveDownloadedEntireList =()=> haveDownloadedEntireList //used for deci
 const getentireListOfStores =()=> entireListOfStores
 
 renderPageMainElement()
-//////////temporary////////////////////
-renderTestSearch()
-//////////temporary////////////////////
+renderScriptTag()
 renderHeader()
 renderClockDom()
-renderHomeStoreBar()
 renderTimeAndDate()
+renderFooter()
 
 const handleQueryAllInfoIsDownloaded =(searchTerm)=> {
   removeDomElements()
@@ -204,10 +202,13 @@ const handleHomeStore =() =>{
   let homeStore = preferredStore.initialize()
 
   if (homeStore !== 'none set') {
-    displayingHomeStore = true
+    setDisplayingHomeStore(true)
+    renderHomeStoreButton()
+
+    let homeStoreId = preferredStore.getHomeStore()
 
     const testFunction = async ()=> {
-      const test = await getHomeStoreQuery(135)
+      const test = await getHomeStoreQuery(homeStoreId)
       return test
     }
 
@@ -216,7 +217,7 @@ const handleHomeStore =() =>{
     })
 
   } else {
-    displayingHomeStore = false
+    setDisplayingHomeStore(false)
     renderSearchElement()
   }
 }

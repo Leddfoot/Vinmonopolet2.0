@@ -14,7 +14,7 @@ const createSearchEventHandler=()=>{
         if (searchInput.value === ''){
         return
       }
-      removeDomElements()
+      removeDomElements('list-of-store-choices')
       let searchTerm = searchInput.value  
       searchTerm = searchTerm.trim()
       setSearchTermIsMultiple(false)
@@ -28,6 +28,7 @@ const createSearchEventHandler=()=>{
           if (searchInput.value === ''){
           return
         }
+        removeDomElements('list-of-store-choices')
         let searchTerm = searchInput.value    
         searchTerm = searchTerm.trim()
         setSearchTermIsMultiple(false)

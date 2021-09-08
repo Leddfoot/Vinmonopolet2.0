@@ -1,12 +1,45 @@
+/* OK IT looks as though it may be smart to use margin 0 auto only on..
+everything BUT NOT HEADER AND FOOTER,THESE SHOULD BE MOVED OUTSIDE OF...
+A MAIN CONTAINER , and then the main container should get the margin 0 auto
+*/
+
+
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700&display=swap');
 
 *{
-    margin: 0 auto;
-    padding: 0px;
+    margin: 0 auto; 
+    padding: 0;
     box-sizing: border-box;
     outline: 1px solid red;
     text-align: center;
 }
+
+#footer-wrapper {
+    background-color: black;
+    position: fixed;
+    bottom: 0;
+    
+  margin: auto;
+  width: 100%;
+}
+
+#timer-wrapper {
+    background-image: url('img/gloriousLiquor.jpg');
+    background-size: cover;
+    height: 100px;
+    width: 80%;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 40px;
+
+}
+
+
+
 
 body {
     font-family: 'Open Sans Condensed', sans-serif;
@@ -21,80 +54,115 @@ body {
     font-size: 6px;
 }
 
+/*this will hold the footer stuck*/
+#page-main-element{
+    margin-bottom: 4%;
+}
+
 /*start test flex*/
-#time-and-date-element {
-    outline: 1px solid red;
-    display: grid;
-    grid-template-columns: 22% auto 44%;
+
+#right-text{
+    width: 90%;
+    display: inline; /*makes the two spans sit together instead of stacking vertically*/
+    float: left; /*pulls to the side of the div*/
+    padding-left: 10px;
 }
-
-
-#date-element{
-    display: block;
-    background-color: white;
-    color: black;
-    grid-column: 1/ span 1;
+.fa-check-square:before {
+    position: relative; /*The icon was glitching upwards, this plus height in icon fixed it*/
+    top: 14%;
 }
-
-#time-element {
-    display: block;
-    background-color: black;
-    grid-column: 1/ span 1;
+#test-icon{
+    height: 20px; /*dont change this needed for vertical centering in fa-check-square:before */
+    width: 10%;
+    display: inline; /*makes the two spans sit together instead of stacking vertically*/
+    float: right;/*pulls to the side of the div*/
+    padding-right: 10px;
 }
-
-#home-store-button-wrapper {    
+.right{
     padding:0;
-    margin:0;
+    margin:0 auto;
     background-color: green;
     grid-column:  4/ span 1;
     grid-row: 1/ span 2;
-    align-self: center;
+    /* align-self: center; */
 }
-
-
-.test-wrapper{    
+.test-wrapper{  
+    height: 20px;
+    width: auto;
     outline: 1px solid red;
     display: grid;
     grid-template-columns: 22% auto 22%;    
 }
 
-#home-store-button{
-    width: 100%;
-    padding:0;
-    margin:0;
-    background-color: green;
-    grid-column:  4/ span 1;
-    grid-row: 1/ span 2;
-    align-self: center;
-}
 
-.left-top{
-    display: block;
-    background-color: white;
-    color: black;
-    grid-column: 1/ span 1;
-}
-.left-bottom{
-    display: block;
-    background-color: black;
-    grid-column: 1/ span 1;
-}
-.right{
-    padding:0;
-    margin:0;
-    background-color: green;
-    grid-column:  4/ span 1;
-    grid-row: 1/ span 2;
-    align-self: center;
 
-}
+
 /*end test flex*/
+
+/*start test 2*/
+
+#test2-wrapper{
+    background-color: blue;
+    width: 20%;
+    flex-direction: row;
+    float: right;
+    margin-right: 5%;
+    /* visibility: hidden; */
+}
+#test2-text{
+    display: inline;
+    float: left;
+    padding-left: 10%;
+}
+#test2-icon{
+    float: right;
+    padding-right: 15px;
+    padding-top: 1.5%;
+    display: inline;
+    align-self: center;
+    
+} 
+
+/*end test 2*/
+
+/*start homestore button*/
+
+#home-store-button{
+    background-color: blue;
+    width: 300px;
+    flex-direction: row;
+    float: right;
+    margin-right: 5%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+#home-store-text{
+    display: inline;
+    float: left;
+    padding-left: 10%;
+}
+#home-store-icon{
+    float: right;
+    padding-right: 15px;
+    padding-top: 1.5%;
+    display: inline;
+    align-self: center;
+    
+} 
+
+/*end homestore button*/
+
+
+
+
+
+
 
 /* For desktop: */
 @media only screen and (min-width: 1px) {
 
 /* begin test section homestore */
-#test-div {
+/* #test-div {
     background-color: green;
     color: yellow;
     height: 50px;
@@ -105,7 +173,7 @@ body {
     height: 90px;
     width: 50%;
     color: white;
-}
+} */
 
 /* end test section homestore */
     
@@ -228,7 +296,8 @@ body {
     }
 
     /*all buttons except .clickable */
-    #show-more-results, #search-again-button, #home-store-button {
+    #show-more-results, #search-again-button {
+        display: block;
         background-color: #333;
         color: whitesmoke;
         margin-top: 25px;
@@ -236,16 +305,7 @@ body {
         padding: 10px;
     }
 
-    #home-store-button {
-        margin: 0;
-        position: absolute;
-        right: 0;       
-        top: 50%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-    #show-more-results:hover, #search-again-button:hover, #home-store-button:hover {
+     #show-more-results:hover, #search-again-button:hover, #home-store-button:hover {
         background-color: whitesmoke;
         color:black
     }
