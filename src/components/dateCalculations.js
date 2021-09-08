@@ -119,6 +119,7 @@ const getTodayNumericConvertedToVinmonpolet =()=>{
     }
 
     return status    
+    console.log('status: ', status);
 }
 
 const convertTimeStringToProperDate =(timeString)=> {

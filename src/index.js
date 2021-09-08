@@ -1,18 +1,7 @@
-///////BEGIN just an example webpack friendly image import
-///////BEGIN just an example webpack friendly image import
-///////BEGIN just an example webpack friendly image import
-// import Icon from './tree.jpg'
-//      const myIcon = new Image();
-//     myIcon.src = Icon;
-//     element.appendChild(myIcon);
-///////EnD just an example webpack friendly image import
-///////EnD just an example webpack friendly image import
-///////EnD just an example webpack friendly image import
-
 'use strict'
 import './style.css'
 import { getStoresSingleQuery, getHomeStoreQuery } from './components/requests'
-import { renderHomeStoreButton, renderScriptTag, renderPageMainElement, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderHomeStoreBar, renderTimeAndDate, removeDomElements } from './views/createPage'
+import { renderHomeStoreButton, renderScriptTag, renderPageMainElement, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements } from './views/createPage'
 import { preferredStore } from './components/preferenceStorage'
 
 let haveDownloadedEntireList = false
@@ -43,7 +32,7 @@ const setEntireListOfStores = (stores)=> {
 const getSearchTermIsMultiple =()=> searchTermIsMultiple
 const getDisplayingHomestore =()=> displayingHomeStore //used for deciding whether or not to render the 'make this my home store button'
 const getStoreOpenStatus =()=> selectedStoreIsOpen //used for deciding if the countdown timer needs to be displayed
-const getHaveDownloadedEntireList =()=> haveDownloadedEntireList //used for deciding if the countdown timer needs to be displayed
+const getHaveDownloadedEntireList =()=> haveDownloadedEntireList //used for optimizing fetches
 const getentireListOfStores =()=> entireListOfStores
 
 renderPageMainElement()
@@ -105,10 +94,9 @@ function getMultiFetches (multipleSearchTerms) {
           store.searchedFor = multipleSearchTerms[i]
         })
         temporaryArray.push(result)      
-        console.log('temporaryArray: ', temporaryArray);
           }
       )
-      .catch(status, err => {return console.log(status, err)})
+      .catch(err => {return console.log(err)})
     )
   }
 
@@ -199,6 +187,7 @@ const filterResults = function (stores, searchTerm){
 }
 
 const handleHomeStore =() =>{
+  console.log('todo:glitch after show more results, displays store info 2 or 3 times')
   let homeStore = preferredStore.initialize()
 
   if (homeStore !== 'none set') {
@@ -207,12 +196,12 @@ const handleHomeStore =() =>{
 
     let homeStoreId = preferredStore.getHomeStore()
 
-    const testFunction = async ()=> {
-      const test = await getHomeStoreQuery(homeStoreId)
-      return test
+    const fetchHomeStoreInfo = async ()=> {
+      const homeStoreInfo = await getHomeStoreQuery(homeStoreId)
+      return homeStoreInfo
     }
 
-    testFunction().then((result) => {
+    fetchHomeStoreInfo().then((result) => {
       renderStoreAddress(result)
     })
 

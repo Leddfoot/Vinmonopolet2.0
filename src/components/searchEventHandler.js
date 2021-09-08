@@ -15,6 +15,7 @@ const createSearchEventHandler=()=>{
         return
       }
       removeDomElements('list-of-store-choices')
+      removeDomElements('aria-count-down-element')
       let searchTerm = searchInput.value  
       searchTerm = searchTerm.trim()
       setSearchTermIsMultiple(false)
@@ -29,6 +30,7 @@ const createSearchEventHandler=()=>{
           return
         }
         removeDomElements('list-of-store-choices')
+        removeDomElements('aria-count-down-element')
         let searchTerm = searchInput.value    
         searchTerm = searchTerm.trim()
         setSearchTermIsMultiple(false)
