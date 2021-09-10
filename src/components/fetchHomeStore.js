@@ -1,6 +1,6 @@
 const request = require('postman-request')
 const config = require('./config')
-const test = config.vinMonopoletAPIKeyPrimary
+const key = config.vinMonopoletAPIKeyPrimary
 
 
 const fetchHomeStore = (searchTerm, callback) => {
@@ -10,7 +10,7 @@ const fetchHomeStore = (searchTerm, callback) => {
     url: 'https://apis.vinmonopolet.no/stores/v0/details?storeId=', 
     headers: {
       'Cache-Control': 'no-cache',
-      'Ocp-Apim-Subscription-Key': test    
+      'Ocp-Apim-Subscription-Key': key    
     } 
   
   }

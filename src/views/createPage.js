@@ -296,6 +296,7 @@ const makeCurrentlyDisplayedStorePersisent = (store)=>{
 }
 
 const renderStoreAddress = (store) => { 
+    console.log('store: ', store);
     let storeId = store[0].storeId   
     const homeStoreId = preferredStore.getHomeStore()
     if (homeStoreId === storeId) {
@@ -334,14 +335,7 @@ const renderStoreAddress = (store) => {
         storeAddressHolder.appendChild(holidayHoursElement) 
         renderSearchAgainButton()
     } else {
-        const storeStatus = generateStoreOpenStatus(store)
-        // generateStoreOpeningHoursText(storeStatus, store)
-        /////////////////you are here//////////////////////////////////////
-        /////////////////you are here//////////////////////////////////////
-        //is this needed and is this a cause of the triple print glitch
-        /////////////////you are here//////////////////////////////////////
-        /////////////////you are here//////////////////////////////////////
-        console.log('why the fuck is this even here???????: ',);
+        const storeStatus = generateStoreOpenStatus(store) 
     }
 
     renderTimerWrapper()
@@ -350,6 +344,8 @@ const renderStoreAddress = (store) => {
 
 }
 
+
+/////////////////////////rename rendercountdownelement
 const renderTimerWrapper=()=>{
     const timerWrapper = document.createElement('div')
     timerWrapper.setAttribute('id', 'timer-wrapper')
@@ -363,13 +359,15 @@ const renderTimerWrapper=()=>{
     minuteWrapper.setAttribute('id', 'minute-wrapper')
     const secondWrapper = document.createElement('div')
     secondWrapper.setAttribute('id', 'second-wrapper')
-
     const hoursText = document.createElement('div')
     hoursText.setAttribute('id', 'hours-text')
     const minutesText = document.createElement('div')
     minutesText.setAttribute('id', 'minutes-text')
     const secondsText = document.createElement('div')
     secondsText.setAttribute('id', 'seconds-text')
+    ////////////////////////////////////
+    ////////////////////////////////////
+    ////////////////////////////////////
 
     const hoursLabel = document.createElement('div')
     hoursLabel.textContent = 'Hours'
@@ -377,6 +375,27 @@ const renderTimerWrapper=()=>{
     minutesLabel.textContent = 'Minutes'
     const secondsLabel = document.createElement('div')
     secondsLabel.textContent = 'Seconds'
+    // createCountdownText(notScreenReader)     wanted to do this but this is rendered without the times (that are us
+    
+
+
+              ////////////////////// note this is being attempted at line 444 ish in renderTimeLeft
+              ////////////////////// note this is being attempted at line 444 ish in renderTimeLeft
+              ////////////////////// note this is being attempted at line 444 ish in renderTimeLeft
+              ////////////////////// note this is being attempted at line 444 ish in renderTimeLeft
+        //////////////you are here
+        //////////////you are here
+        //////////////you are here
+        //////////////you are here
+        //////////////you are here
+        //////////////you are here
+        //////////////you are here
+
+       ////////////////////////////////////
+    ////////////////////////////////////
+    ////////////////////////////////////
+
+
 
     hourWrapper.appendChild(hoursText)
     hourWrapper.appendChild(hoursLabel)
@@ -395,6 +414,7 @@ const renderTimerWrapper=()=>{
 
 
 const createCountdownText =(timeRemaining)=>{
+    console.log('timeRemaining: ', timeRemaining);
     const hoursRemaining = timeRemaining.hours
     const minutesRemaining = timeRemaining.minutes
     const hoursText = (hoursRemaining > 1) ? 'hours' : 'hour'
@@ -420,6 +440,12 @@ const renderTimeLeft =(timeUntilClosing)=>{
     hoursText.textContent = hoursRemaining
     minutesText.textContent = minutesRemaining
     secondsText.textContent = secondsRemaining
+
+    // if (hours  less than 1) {
+    //     change the hour label to hour
+    // } else if  (minutes  less than 1) {
+    //     change the minutes label to hour
+    // } etc etc etc
 
 }
 
@@ -454,11 +480,11 @@ let countdownTimer = setInterval(function() {
                     ///////////this needs to be testedbelow///////////////
             ///////////this needs to be tested///////////////
         if (timeLeft < 0) {
-            const storeStatus = generateStoreOpenStatus(currentlySelectedStore)
-            console.log('storeStatus: ', storeStatus);
-            generateStoreOpeningHoursText(storeStatus, currentlySelectedStore)
+            // const storeStatus = generateStoreOpenStatus(currentlySelectedStore)
+            // console.log('storeStatus: ', storeStatus);
+            // generateStoreOpeningHoursText(storeStatus, currentlySelectedStore)
  
-            let timerWrapper = document.getElementById('timer-wrapper')
+            // let timerWrapper = document.getElementById('timer-wrapper')
 
 
             if (timerWrapper) {
@@ -498,7 +524,7 @@ const renderAriaCountdownElement =()=>{
     timeUntilClosing.minutes = Math.floor( (timeLeft/1000/60) % 60 )
 
     let ariaCountDownElement = document.createElement('span')    
-    ariaCountDownElement.setAttribute('id', 'aria-count-down-element')
+    ariaCountDownElement.setAttribute('id', 'sr-only-closing-countdown')
     ariaCountDownElement.textContent = 'store closes in:'
 
     let pageMainElement = document.getElementById('page-main-element')
@@ -508,7 +534,7 @@ const renderAriaCountdownElement =()=>{
 
 /////////////////////////
 ////////////need to add this code to styling
-// #aria-count-down-element {
+// #sr-only-closing-countdown {
 //     position: absolute;
 //     height: 1px;
 //     width: 1px;
@@ -616,7 +642,7 @@ const renderSearchAgainButton =()=>{
         removeDomElements('timer-wrapper')
         removeDomElements('store-address-holder') 
         removeDomElements('search-again-button')        
-        removeDomElements('aria-count-down-element')
+        removeDomElements('sr-only-closing-countdown')
 
         renderSearchElement() 
    
@@ -637,23 +663,41 @@ const generateSelectStoreDOMWithSearchTerm = (store) => {
     return storeElement
 }
 
-const generateSelectStoreDOM = (store) => {
+const generateSelectStoreDOM = (store, currentListOfStores) => {
 
     const storeElement = document.createElement('span')
     const storeTextElement = document.createElement('button') 
     storeTextElement.textContent = store.storeName   
     storeTextElement.setAttribute('id', store.storeId)    
     storeTextElement.classList.add('clickable')
-    storeElement.appendChild(storeTextElement)  
+    storeElement.appendChild(storeTextElement)
+    
+    /////////////////////
+    /////////////////////
+    const storeWasSelected = (event)=>{
+        event.preventDefault()    
+        selectThisStore(event.target.id, currentListOfStores) 
+        removeDomElements('main-search-form')
+        removeDomElements('list-of-store-choices')
+        removeDomElements('sr-only-closing-countdown')
+    }  
+
+   
+        storeTextElement.addEventListener('click', storeWasSelected)
+
+    /////////////////////
+    /////////////////////
 
     return storeElement
 }
 
 const selectThisStore =(id, stores)=> {
+    // debugger
     let filteredStore = stores.filter(store => store.storeId === id)  
     console.log('filteredStore: ', filteredStore);
       
     renderStoreAddress(filteredStore)
+    console.log('renderStoreAddress: from selectThisStore');
     
 }
 
@@ -679,6 +723,7 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
     }
 
     let addSearchedFor = getSearchTermIsMultiple()
+    console.log('getSearchTermIsMultiple: ', getSearchTermIsMultiple);
 
     if (addSearchedFor) {
             stores.forEach((store) => {
@@ -689,26 +734,12 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
         } else {
             stores.forEach((store) => {
                 let listOfStoreChoices = document.getElementById('list-of-store-choices')
-                let storeElement = generateSelectStoreDOM(store)
+                // let storeElement = generateSelectStoreDOM(store)
+                let storeElement = generateSelectStoreDOM(store, currentListOfStores)
                 listOfStoreChoices.appendChild(storeElement)
         })
     } 
 
-    const clickableElements = document.querySelectorAll('.clickable')
-  
-    clickableElements.forEach((button)=> {
-    button.addEventListener("click", (event) => {
-        event.preventDefault()
-        console.log('ewas clicked: ');
-        
-        selectThisStore(event.target.id, currentListOfStores) 
-        removeDomElements('main-search-form')
-        removeDomElements('list-of-store-choices')
-        removeDomElements('aria-count-down-element')
-        
-        
-    })
-    })
 
     if (moreResultsToDisplay) {
         let listOfStoreChoices = document.getElementById('list-of-store-choices')

@@ -9,6 +9,23 @@ export async function getStoreByName(searchTerm) {
   return littleStoreList
 }
 
+///////////////
+/////////////
+export async function getStoreById(Id) {
+  console.log('making small fake fetch')
+  const littleStoreList = fakeSmallAPIcallId(stores, Id)
+  return littleStoreList
+}
+
+const fakeSmallAPIcallId = (stores, Id) => {
+  return stores.filter(function (store) {    
+    const isStoreNameMatch = store.storeId.includes(Id)
+    return isStoreNameMatch 
+  })  
+}
+//////////////////////
+/////////////
+
 const fakeSmallAPIcall = (stores, searchTerm) => {
   return stores.filter(function (store) {    
     const isStoreNameMatch = store.storeName.toLowerCase().includes(searchTerm.toString().toLowerCase())
@@ -16,11 +33,11 @@ const fakeSmallAPIcall = (stores, searchTerm) => {
   })  
 }
 
-// export async function getallStores() {
-//   const storeList = stores
-//   console.log('fake fetching everything')
-//    return storeList
-//  }
+export async function getallStores() {
+  const storeList = stores
+  console.log('fake fetching everything')
+   return storeList
+ }
 
  ////
 
@@ -29,6 +46,13 @@ const fakeSmallAPIcall = (stores, searchTerm) => {
 //////////////END USE ONLY FOR TESTING/////////////////////////////
 //////////////END USE ONLY FOR TESTING/////////////////////////////
 import { handleSingleQueryResults, setEntireListOfStores } from '../index'
+
+//////////temporary change to fetch store info for testing////////////
+//////////temporary change to fetch store info for testing////////////
+//////////temporary change to fetch store info for testing////////////
+//////////temporary change to fetch store info for testing////////////
+
+
 
 const fetchStoreInfo = async (searchTerm, getAllStores)=> {
   let url = 'http://localhost:3000/vinmonopolet?city=' + searchTerm
@@ -44,6 +68,10 @@ const fetchStoreInfo = async (searchTerm, getAllStores)=> {
     console.log('Problem with our server')
   }
 }
+//////////temporary change to fetch store info for testing////////////
+//////////temporary change to fetch store info for testing////////////
+//////////temporary change to fetch store info for testing////////////
+//////////temporary change to fetch store info for testing////////////
 
 const fetchHomeStore = async (id)=> {
   const response = await fetch('http://localhost:3000/homestore?id=' + id)

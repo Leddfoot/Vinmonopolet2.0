@@ -1,6 +1,11 @@
 'use strict'
 import './style.css'
 import { getStoresSingleQuery, getHomeStoreQuery } from './components/requests'
+///////////temporary///////////////////////
+///////////temporary///////////////////////
+import { getStoreByName, getallStores, getStoreById } from './components/requests'
+///////////temporary///////////////////////
+///////////temporary///////////////////////
 import { renderHomeStoreButton, renderScriptTag, renderPageMainElement, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements } from './views/createPage'
 import { preferredStore } from './components/preferenceStorage'
 
@@ -140,6 +145,7 @@ const handleMultiMatches =(multiMatches, combinedFetchArrayWODupes) => {
 const handlePossibleMatches = (possibleMatches, searchTerm) => {
   if (possibleMatches.length === 1){
     renderStoreAddress(possibleMatches)
+    console.log('renderStoreAddress:from handle possible matches ');
   } else if (possibleMatches.length > 1 && possibleMatches.length <= 10) {
     let moreResultsToDisplay = false
     renderStores(possibleMatches, moreResultsToDisplay, currentListOfStores) 
@@ -187,7 +193,7 @@ const filterResults = function (stores, searchTerm){
 }
 
 const handleHomeStore =() =>{
-  console.log('todo:glitch after show more results, displays store info 2 or 3 times')
+  console.log('note: home store is fetching from local list, not vm api to save requests')
   let homeStore = preferredStore.initialize()
 
   if (homeStore !== 'none set') {
@@ -196,14 +202,32 @@ const handleHomeStore =() =>{
 
     let homeStoreId = preferredStore.getHomeStore()
 
+    // const fetchHomeStoreInfo = async ()=> {
+    //   const homeStoreInfo = await getHomeStoreQuery(homeStoreId)
+    //   return homeStoreInfo
+    // }
+
+    
+    // fetchHomeStoreInfo().then((result) => {
+    //   console.log('renderStoreAddress from fetchHomeStoreInfo: ');
+    //   renderStoreAddress(result)
+    // })
+
+    ////////////////////temporary
+    ////////////////////temporary
     const fetchHomeStoreInfo = async ()=> {
-      const homeStoreInfo = await getHomeStoreQuery(homeStoreId)
+      const homeStoreInfo = await getStoreById(homeStoreId)
       return homeStoreInfo
     }
 
+    
     fetchHomeStoreInfo().then((result) => {
+      console.log('renderStoreAddress from fetchHomeStoreInfo: ');
       renderStoreAddress(result)
     })
+    ////////////////////temporary
+    ////////////////////temporary
+
 
   } else {
     setDisplayingHomeStore(false)

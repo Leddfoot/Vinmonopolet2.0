@@ -59,6 +59,11 @@ const handleQuerySubmission =(searchTerm)=> { //This is what makes everything ef
 
   if (!haveDownloadedEntireList) {
     if (!searchTermIsMultiple) {
+      ///////////////////TEMP/////
+      ///////////////////TEMP/////
+      // getStoresSingleQueryTEMPORARY(searchTerm)
+      ///////////////////TEMP/////
+      ///////////////////TEMP/////
       getStoresSingleQuery(searchTerm)
     } else {
       getMultiFetches(searchTerm)
