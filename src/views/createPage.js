@@ -68,23 +68,12 @@ const generateTimeAndDateDOM =()=> {
     const dateElement = document.createElement('p')
     dateElement.setAttribute('id', 'date-element')    
     dateElement.textContent = todayDateForDisplay
-    // let homeStoreButtonWrapper = document.createElement('div')
-    // homeStoreButtonWrapper.setAttribute('id', 'home-store-button-wrapper')
-    // console.log('homeStoreButtonWrapper: ', homeStoreButtonWrapper);
-    // timeAndDateElement.appendChild(homeStoreButtonWrapper)
-    // let homeStoreButton = generateHomeStoreButtonDom()
-    // console.log('homeStoreButton: ', homeStoreButton);
-    // homeStoreButtonWrapper.appendChild(homeStoreButton)
-    
-
     
     timeAndDateElement.appendChild(dateWrapperDiv)
     dateWrapperDiv.appendChild(dateElement)
     timeAndDateElement.appendChild(timeWrapperDiv)
     timeWrapperDiv.appendChild(timeElement)
 
-    // console.log('homeStoreButtonWrapper: ', homeStoreButtonWrapper);
- 
     setInterval(function() {
         const nowClock = formatCurrentTime()
         timeElement.textContent = nowClock        
@@ -105,7 +94,6 @@ const renderHomeStoreButton =()=>{
     document.body.prepend(homeStoreButton)
 
 }
-
 
 const generateHomeStoreButtonDom =()=> {
     const isHomeStore = getDisplayingHomestore()
@@ -149,8 +137,6 @@ const generateHomeStoreButtonDom =()=> {
     })
     return homeStoreButton
 }
-
-
 
 const generateSearchInputDOM =()=> {  
 
@@ -233,70 +219,33 @@ const generateStorehoursHolidayDOM = () => {
     return holidayHoursElement
 }
 
-const generateStoreOpeningHoursDOM=(openingHoursText)=>{
-    let openingHoursElement = document.createElement('div')
-    openingHoursElement.setAttribute('id', 'opening-hours-element')
-    openingHoursElement.textContent = openingHoursText
-    return openingHoursElement
-}
+/////////////////////may not need these 2 functions/////////
+/////////////////////may not need these 2 functions/////////
+/////////////////////may not need these 2 functions/////////
+// const generateStoreOpeningHoursDOM=(openingHoursText)=>{
+//     let openingHoursElement = document.createElement('div')
+//     openingHoursElement.setAttribute('id', 'opening-hours-element')
+//     openingHoursElement.textContent = openingHoursText
+//     return openingHoursElement
+// }
 
-const generateStoreOpeningHoursText = (storeStatus, store) => {
-    const selectedStore = store[0]
-    let openingHoursElement = document.getElementById('opening-hours-element')
-    const todayIntegerConverted = getTodayNumericConvertedToVinmonpolet()
-    const closesTodayAt = selectedStore.openingHours.regularHours[todayIntegerConverted].closingTime    
-    const opensTodayAt = selectedStore.openingHours.regularHours[todayIntegerConverted].openingTime
+// const renderStoreOpeningHours =(openingHoursElement)=> {
+//     removeDomElements('opening-hours-element')
+//     let storeInfoContentHolder = document.getElementById('store-info-content-holder')
+//     storeInfoContentHolder.appendChild(openingHoursElement)
+//         renderSearchAgainButton()
+// }
 
-    if (openingHoursElement !== null) {openingHoursElement.parentElement.removeChild(openingHoursElement)}
-
-    if (selectedStore.storeId === '801'){
-        const openingHoursText = 'The E lager is not open to the public'
-        let openingHoursElement = generateStoreOpeningHoursDOM(openingHoursText)        
-        renderStoreOpeningHours(openingHoursElement)        
-        return
-    }
-    if (storeStatus.closedAllDay === true){
-        const openingHoursText = 'The store is closed all day Today'
-        let openingHoursElement = generateStoreOpeningHoursDOM(openingHoursText)        
-        renderStoreOpeningHours(openingHoursElement)
-        return
-    }
-    if(storeStatus.hasClosed === true) { 
-        const openingHoursText = `This store has already closed today at ${closesTodayAt}`
-        const todayNumericVinmonopolet = getTodayNumericConvertedToVinmonpolet()
-        let thisDayHasBeenChecked = true
-
-        let openingHoursElement = generateStoreOpeningHoursDOM(openingHoursText)
-        renderStoreOpeningHours(openingHoursElement)
-        findNextOpenDay(store, todayNumericVinmonopolet, thisDayHasBeenChecked)
-        renderSearchAgainButton()
-        return
-    }
-    if(storeStatus.hasOpened === false) {
-        const openingHoursText = `This store will open today at ${opensTodayAt} and closes at ${closesTodayAt}`
-        let openingHoursElement = generateStoreOpeningHoursDOM(openingHoursText)
-        renderStoreOpeningHours(openingHoursElement)            
-        return
-    }
-    const openingHoursText = `This store is currently open. `
-    openingHoursElement = generateStoreOpeningHoursDOM(openingHoursText)
-    renderStoreOpeningHours(openingHoursElement, store)
-}
-
-const renderStoreOpeningHours =(openingHoursElement)=> {
-    removeDomElements('opening-hours-element')
-    let storeInfoContentHolder = document.getElementById('store-info-content-holder')
-    storeInfoContentHolder.appendChild(openingHoursElement)
-        renderSearchAgainButton()
-}
+/////////////////////may not need these 2 functions/////////
+/////////////////////may not need these 2 functions/////////
+/////////////////////may not need these 2 functions/////////
 
 const makeCurrentlyDisplayedStorePersisent = (store)=>{
     let temporaryStorage = window.sessionStorage
     temporaryStorage.setItem('currentlySelectedStore', JSON.stringify(store))   
 }
 
-const renderStoreAddress = (store) => { 
-    console.log('store: ', store);
+const renderStoreAddress = (store) => {
     let storeId = store[0].storeId   
     const homeStoreId = preferredStore.getHomeStore()
     if (homeStoreId === storeId) {
@@ -335,24 +284,89 @@ const renderStoreAddress = (store) => {
         storeAddressHolder.appendChild(holidayHoursElement) 
         renderSearchAgainButton()
     } else {
-        const storeStatus = generateStoreOpenStatus(store) 
+        ///need this?
+        // const storeStatus = generateStoreOpenStatus(store)
+        ///need this ?
     }
 
-    renderTimerWrapper()
-    renderSearchAgainButton()
-    renderAriaCountdownElement()
+    renderCountdownWrapper()
 
+    renderSearchAgainButton()
+    decideCountdownElementContents(store)
+
+
+    ////move this to whatever if store is open and render timer stuff
+    renderAriaCountdownElement()
+    ////move this to whatever if store is open and render timer stuff
 }
 
 
-/////////////////////////rename rendercountdownelement
-const renderTimerWrapper=()=>{
-    const timerWrapper = document.createElement('div')
-    timerWrapper.setAttribute('id', 'timer-wrapper')
-    timerWrapper.setAttribute('aria-hidden', true)
-    const countdownBackground = new Image()
-    countdownBackground.src = gloriousLiquor
-    timerWrapper.setAttribute('background-image', countdownBackground) 
+const generateStoreOpeningHoursText = (storeStatus, store) => {
+    const selectedStore = store[0]
+    const todayIntegerConverted = getTodayNumericConvertedToVinmonpolet()
+    const closesTodayAt = selectedStore.openingHours.regularHours[todayIntegerConverted].closingTime    
+    const opensTodayAt = selectedStore.openingHours.regularHours[todayIntegerConverted].openingTime
+
+    if (selectedStore.storeId === '801'){
+        return openingHoursText = 'The E lager is not open to the public'            
+    }
+    if (storeStatus.closedAllDay === true){
+        return openingHoursText = 'The store is closed all day Today'
+    }
+    if(storeStatus.hasClosed === true) { 
+        let openingHoursText = `This store has already closed today at ${closesTodayAt}. `
+        const todayNumericVinmonopolet = getTodayNumericConvertedToVinmonpolet()
+        let thisDayHasBeenChecked = true
+        const nextOpenText = findNextOpenDay(store, todayNumericVinmonopolet, thisDayHasBeenChecked)
+        openingHoursText += nextOpenText
+        return openingHoursText
+    }
+    if(storeStatus.hasOpened === false) {
+        let openingHoursText = `This store will open today at ${opensTodayAt} and closes at ${closesTodayAt}.`      
+        return openingHoursText
+    }
+}
+
+const renderNotCurrentlyOpenText = (openingHoursText) => {
+
+    let countdownWrapper = document.getElementById('countdown-wrapper')
+    console.log('countdownWrapper: ', countdownWrapper);
+    let notOpenTextWrapper = document.createElement('div')
+    notOpenTextWrapper.setAttribute('id', 'not-open-text-wrapper')    
+    let notOpenText = document.createElement('p')
+    notOpenText.innerHTML += openingHoursText
+    notOpenTextWrapper.appendChild(notOpenText)
+    countdownWrapper.appendChild(notOpenTextWrapper)
+}
+
+const decideCountdownElementContents = (store) =>{
+    const storeStatus = generateStoreOpenStatus(store)
+    // console.log('storeStatus: ', storeStatus);
+    const openingHoursText = generateStoreOpeningHoursText(storeStatus, store)
+
+    if (storeStatus.closedAllDay === true || storeStatus.hasOpened === false || storeStatus.hasClosed === true) {
+        // console.log('openingHoursText: ', openingHoursText); 
+        //render the opening hours text in whatever
+        renderNotCurrentlyOpenText(openingHoursText)
+    }
+
+    if (storeStatus.isOpen === true) {
+        startCountdownTimer()
+
+        ///////////////you are heree//////////////////////
+        ///////////////you are heree//////////////////////
+        ///////////////NEED TO DISPLAY THE HOURS MINUTES BLABLA//////////////////////
+        ///////////////YOU WILL DO THIS IN startCountdownTimer() WHERE THEconsole.log is //////////////////////
+        ///////////////you are heree//////////////////////
+        ///////////////you are heree//////////////////////
+        //start the countdown timer and print the coundown mns and secods and hours
+    }
+
+    
+    //  const openingHoursText = generateStoreOpeningHoursText(storeStatus, store)
+}
+
+const renderCounter =()=>{
     const hourWrapper = document.createElement('div')
     hourWrapper.setAttribute('id', 'hour-wrapper')
     const minuteWrapper = document.createElement('div')
@@ -365,9 +379,6 @@ const renderTimerWrapper=()=>{
     minutesText.setAttribute('id', 'minutes-text')
     const secondsText = document.createElement('div')
     secondsText.setAttribute('id', 'seconds-text')
-    ////////////////////////////////////
-    ////////////////////////////////////
-    ////////////////////////////////////
 
     const hoursLabel = document.createElement('div')
     hoursLabel.textContent = 'Hours'
@@ -375,28 +386,7 @@ const renderTimerWrapper=()=>{
     minutesLabel.textContent = 'Minutes'
     const secondsLabel = document.createElement('div')
     secondsLabel.textContent = 'Seconds'
-    // createCountdownText(notScreenReader)     wanted to do this but this is rendered without the times (that are us
-    
-
-
-              ////////////////////// note this is being attempted at line 444 ish in renderTimeLeft
-              ////////////////////// note this is being attempted at line 444 ish in renderTimeLeft
-              ////////////////////// note this is being attempted at line 444 ish in renderTimeLeft
-              ////////////////////// note this is being attempted at line 444 ish in renderTimeLeft
-        //////////////you are here
-        //////////////you are here
-        //////////////you are here
-        //////////////you are here
-        //////////////you are here
-        //////////////you are here
-        //////////////you are here
-
-       ////////////////////////////////////
-    ////////////////////////////////////
-    ////////////////////////////////////
-
-
-
+  
     hourWrapper.appendChild(hoursText)
     hourWrapper.appendChild(hoursLabel)
     minuteWrapper.appendChild(minutesText)
@@ -404,111 +394,111 @@ const renderTimerWrapper=()=>{
     secondWrapper.appendChild(secondsText)
     secondWrapper.appendChild(secondsLabel)
 
-    timerWrapper.appendChild(hourWrapper)
-    timerWrapper.appendChild(minuteWrapper)
-    timerWrapper.appendChild(secondWrapper)
-
-    pageMainElement.appendChild(timerWrapper)
+    let countdownWrapper = document.getElementById('countdown-wrapper')
+    countdownWrapper.appendChild(hourWrapper)
+    countdownWrapper.appendChild(minuteWrapper)
+    countdownWrapper.appendChild(secondWrapper)
 }
 
+let countdownTimer 
+function startCountdownTimer() {
+    console.log('timer fired')
+    let countdownWrapper = document.getElementById('countdown-wrapper')
+    if (countdownWrapper.firstChild){
+        while(countdownWrapper.firstChild !== null) {
+            countdownWrapper.removeChild(countdownWrapper.firstChild)
+            }
+        }
 
 
-const createCountdownText =(timeRemaining)=>{
-    console.log('timeRemaining: ', timeRemaining);
-    const hoursRemaining = timeRemaining.hours
-    const minutesRemaining = timeRemaining.minutes
-    const hoursText = (hoursRemaining > 1) ? 'hours' : 'hour'
-    const minutesText = (minutesRemaining !== 1) ? 'minutes' : 'minute'
+    renderCounter()
 
-    if(hoursRemaining === 0 && minutesRemaining !== 0){
-        return `The store closes in ${minutesRemaining} ${minutesText}`
-    } else {
-        return `The store closes in ${hoursRemaining} ${hoursText} ${minutesRemaining} ${minutesText}`
-    }
-}
-
-const renderTimeLeft =(timeUntilClosing)=>{
-    // console.log('timeUntilClosing: ', timeUntilClosing);
-    const hoursRemaining = timeUntilClosing.hours
-    const minutesRemaining = timeUntilClosing.minutes
-    const secondsRemaining = timeUntilClosing.seconds
-    
-    const hoursText = document.getElementById('hours-text')    
-    const minutesText = document.getElementById('minutes-text')
-    const secondsText = document.getElementById('seconds-text')
-
-    hoursText.textContent = hoursRemaining
-    minutesText.textContent = minutesRemaining
-    secondsText.textContent = secondsRemaining
-
-    // if (hours  less than 1) {
-    //     change the hour label to hour
-    // } else if  (minutes  less than 1) {
-    //     change the minutes label to hour
-    // } etc etc etc
-
-}
-
-
-let countdownTimer = setInterval(function() {
-    const storeIsOpen = getStoreOpenStatus()
     const convertedNumericToday = getTodayNumericConvertedToVinmonpolet()
     let temporaryStorage = window.sessionStorage
     const currentlySelectedStore = JSON.parse(temporaryStorage.getItem('currentlySelectedStore'))
 
 
-
-    //////////temporary testing
-      //////////temporary testing
-    //   if (displayingIndividualStore === false ) {  
-    if (displayingIndividualStore === false || !storeIsOpen) {  
-
-
-        return
-    } else {
-        const closesTodayAt = currentlySelectedStore[0].openingHours.regularHours[convertedNumericToday].closingTime
-        const closingTimeConverted = convertTimeStringToProperDate(closesTodayAt)
-        let now = new Date().getTime()
-        let timeLeft = closingTimeConverted - now
-        let timeUntilClosing = {}
-        timeUntilClosing.hours = Math.floor( (timeLeft/(1000*60*60)) % 24 )
-        timeUntilClosing.minutes = Math.floor( (timeLeft/1000/60) % 60 )
-        timeUntilClosing.seconds = Math.floor( (timeLeft/1000) % 60 )
-        renderTimeLeft(timeUntilClosing)
+    const closesTodayAt = currentlySelectedStore[0].openingHours.regularHours[convertedNumericToday].closingTime
+    const closingTimeConverted = convertTimeStringToProperDate(closesTodayAt)
+    let now = new Date().getTime()
+    let timeLeft = closingTimeConverted - now
+    let timeUntilClosing = {}
+    timeUntilClosing.hours = Math.floor( (timeLeft/(1000*60*60)) % 24 )
+    timeUntilClosing.minutes = Math.floor( (timeLeft/1000/60) % 60 )
+    timeUntilClosing.seconds = Math.floor( (timeLeft/1000) % 60 )
+    renderTimeLeft(timeUntilClosing)
+    countdownTimer = setTimeout(startCountdownTimer, 1000)
+}
+// clearTimeout(countdownTimer)
+// startCountdownTimer()
 
 
-                    ///////////this needs to be testedbelow///////////////
-            ///////////this needs to be tested///////////////
-        if (timeLeft < 0) {
-            // const storeStatus = generateStoreOpenStatus(currentlySelectedStore)
-            // console.log('storeStatus: ', storeStatus);
-            // generateStoreOpeningHoursText(storeStatus, currentlySelectedStore)
- 
-            // let timerWrapper = document.getElementById('timer-wrapper')
+
+// var timeout;
+// function doStuff() {
+//     //doStuff 
+//     timeout = setTimeout(doStuff,20000);
+// }
+// doStuff()
+
+// //Stop it
+// clearTimeout(timeout);
+
+// //Start it
+// doStuff();
+
+// let countdownTimerOld = setInterval(function() {
 
 
-            if (timerWrapper) {
-                if (timerWrapper.firstChild){
-                    while(toDestroy.firstChild !== null) {
-                        timerWrapper.removeChild(toDestroy.firstChild)
-                    }
-                }
-            } 
-            //////////UNFINISHED
-            ////////////here you need to add the store is closed text in the timer-wrapper
-            ////////////here you need to add the store is closed text in the timer-wrapper
-            ////////////here you need to add the store is closed text in the timer-wrapper
-            ////////////here you need to add the store is closed text in the timer-wrapper
 
 
-            clearInterval(countdownTimer)
-            console.log('CountDown Finished');
-        }
-                    ///////////this needs to be testedabove///////////////
-            ///////////this needs to be tested///////////////
-    }
+    // const convertedNumericToday = getTodayNumericConvertedToVinmonpolet()
+    // let temporaryStorage = window.sessionStorage
+    // const currentlySelectedStore = JSON.parse(temporaryStorage.getItem('currentlySelectedStore'))
+    // let openStatus = generateStoreOpenStatus(currentlySelectedStore)
 
-}, 1000);
+
+    // const closesTodayAt = currentlySelectedStore[0].openingHours.regularHours[convertedNumericToday].closingTime
+    // const closingTimeConverted = convertTimeStringToProperDate(closesTodayAt)
+    // let now = new Date().getTime()
+    // let timeLeft = closingTimeConverted - now
+    // let timeUntilClosing = {}
+    // timeUntilClosing.hours = Math.floor( (timeLeft/(1000*60*60)) % 24 )
+    // timeUntilClosing.minutes = Math.floor( (timeLeft/1000/60) % 60 )
+    // timeUntilClosing.seconds = Math.floor( (timeLeft/1000) % 60 )
+    // renderTimeLeft(timeUntilClosing)
+
+//     if (timeLeft < 0) {
+//         // const storeStatus = generateStoreOpenStatus(currentlySelectedStore)
+//         // console.log('storeStatus: ', storeStatus);
+//         // generateStoreOpeningHoursText(storeStatus, currentlySelectedStore)
+
+//         // let timerWrapper = document.getElementById('timer-wrapper')
+
+
+
+//         //////////UNFINISHED
+//         ////////////here you need to add the store is closed text in the timer-wrapper
+//         ////////////here you need to add the store is closed text in the timer-wrapper
+//         ////////////here you need to add the store is closed text in the timer-wrapper
+//         ////////////here you need to add the store is closed text in the timer-wrapper
+
+
+//         clearInterval(countdownTimerOld)
+//         console.log('CountDown Finished');
+    
+//                 ///////////this needs to be testedabove///////////////
+//         ///////////this needs to be tested///////////////
+                    // if (timerWrapper) {
+        //     if (timerWrapper.firstChild){
+        //         while(toDestroy.firstChild !== null) {
+        //             timerWrapper.removeChild(toDestroy.firstChild)
+        //         }
+        //     }
+        // } 
+//     }
+
+// }, 1000);
 
 
 const renderAriaCountdownElement =()=>{
@@ -532,65 +522,47 @@ const renderAriaCountdownElement =()=>{
     ariaCountDownElement.textContent = storeClosesInText
     pageMainElement.appendChild(ariaCountDownElement) 
 
-/////////////////////////
-////////////need to add this code to styling
-// #sr-only-closing-countdown {
-//     position: absolute;
-//     height: 1px;
-//     width: 1px;
-//     clip: rect(1px 1px 1px 1px); // IE 6 and 7
-//     clip: rect(1px,1px,1px,1px);
-//     clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
-//     -webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
-//     overflow: hidden !important;
-//     }
-
-/////////////////////////
-////////////need to add this code to styling
-
-
-
-
 }
 
+const renderCountdownWrapper=()=>{
+    const countdownWrapper = document.createElement('div')
+    countdownWrapper.setAttribute('id', 'countdown-wrapper')
+    countdownWrapper.setAttribute('aria-hidden', true)
+    const countdownBackground = new Image()
+    countdownBackground.src = gloriousLiquor
+    countdownWrapper.setAttribute('background-image', countdownBackground) 
 
-// let ariaCountdownTimer = setInterval(function() {
-//     // const storeIsOpen = getStoreOpenStatus()
-//     // const convertedNumericToday = getTodayNumericConvertedToVinmonpolet()
-//     // let temporaryStorage = window.sessionStorage
-//     // const currentlySelectedStore = JSON.parse(temporaryStorage.getItem('currentlySelectedStore'))
-      
-//     // if (displayingIndividualStore === false || !storeIsOpen) {  
-//     //     return
-//     // } else {
-//         // const closesTodayAt = currentlySelectedStore[0].openingHours.regularHours[convertedNumericToday].closingTime
-//         // const closingTimeConverted = convertTimeStringToProperDate(closesTodayAt)
-//         // let now = new Date().getTime()
-//         // let timeLeft = closingTimeConverted - now
-//         // let timeUntilClosing = {}
-//         // timeUntilClosing.hours = Math.floor( (timeLeft/(1000*60*60)) % 24 )
-//         // timeUntilClosing.minutes = Math.floor( (timeLeft/1000/60) % 60 )
-//         // timeUntilClosing.seconds = Math.floor( (timeLeft/1000) % 60 )
+    pageMainElement.appendChild(countdownWrapper) 
+}
 
-//         renderCountdownElement(timeUntilClosing)
-//         if (timeLeft < 0) {
-//             const storeStatus = generateStoreOpenStatus(currentlySelectedStore)
-//             console.log('storeStatus: ', storeStatus);
-//             // generateStoreOpeningHoursText(storeStatus, currentlySelectedStore)
- 
-//             let countDownElement = document.getElementById('count-down-element')
-//             let searchAgainButton = document.getElementById('search-again-button')
-                    
-//             if (countDownElement) {countDownElement.parentElement.removeChild(countDownElement)}           
-//             if (searchAgainButton !== null) {searchAgainButton.parentElement.removeChild(searchAgainButton)}
+const createCountdownText =(timeRemaining)=>{
+    const hoursRemaining = timeRemaining.hours
+    const minutesRemaining = timeRemaining.minutes
+    const hoursText = (hoursRemaining > 1) ? 'hours' : 'hour'
+    const minutesText = (minutesRemaining !== 1) ? 'minutes' : 'minute'
 
-//             clearInterval(countdownTimer)
-//             console.log('CountDown Finished');
-//         }
-        
-//     }
+    if(hoursRemaining === 0 && minutesRemaining !== 0){
+        return `The store closes in ${minutesRemaining} ${minutesText}`
+    } else {
+        return `The store closes in ${hoursRemaining} ${hoursText} ${minutesRemaining} ${minutesText}`
+    }
+}
+////////might not need this
+const renderTimeLeft =(timeUntilClosing)=>{
+    // console.log('timeUntilClosing: ', timeUntilClosing);
+    const hoursRemaining = timeUntilClosing.hours
+    const minutesRemaining = timeUntilClosing.minutes
+    const secondsRemaining = timeUntilClosing.seconds
+    
+    const hoursText = document.getElementById('hours-text')    
+    const minutesText = document.getElementById('minutes-text')
+    const secondsText = document.getElementById('seconds-text')
 
-// }, 1000);
+    hoursText.textContent = hoursRemaining
+    minutesText.textContent = minutesRemaining
+    secondsText.textContent = secondsRemaining
+
+}
 
 const findNextOpenDay = (store, todayNumericVinmonopolet, thisDayHasBeenChecked)=> {
     //NOTE THIS IS ONLY USED AFTER THE STORE HAS CLOSED FOR TODAY, and that stores are not open on Sundays
@@ -612,18 +584,15 @@ const findNextOpenDay = (store, todayNumericVinmonopolet, thisDayHasBeenChecked)
      } else {
          const nextOpeningWeekday = openingTimes[nextDay].dayOfTheWeek
          const nextOpeningTime = openingTimes[nextDay].openingTime
-         generateNextOpenInfo(nextOpeningTime, nextOpeningWeekday)
+         const nextTimeOpenText = generateNextOpenInfo(nextOpeningTime, nextOpeningWeekday)
+        return nextTimeOpenText
      }   
 }
 
 const generateNextOpenInfo =(nextOpeningTime, nextOpeningWeekday) =>{
-    const nextTimeOpenText = `This store will open again at ${nextOpeningTime} on ${nextOpeningWeekday}`
-    const storeInfoContentHolder = document.getElementById('store-info-content-holder')
-    const nextOpenHolder = document.createElement('span')
-    nextOpenHolder.textContent += nextTimeOpenText
-    storeInfoContentHolder.appendChild(nextOpenHolder)    
+    let nextTimeOpenText = `This store will open again at ${nextOpeningTime} on ${nextOpeningWeekday}.`
+    return nextTimeOpenText  
 }
-
 
 const renderSearchAgainButton =()=>{
 
@@ -637,9 +606,9 @@ const renderSearchAgainButton =()=>{
         temporaryStorage.clear()
         displayingIndividualStore = false
         setDisplayingHomeStore(false)
-        // destroyHomeStoreButton()
+        clearTimeout(countdownTimer)
         removeDomElements('home-store-button')
-        removeDomElements('timer-wrapper')
+        removeDomElements('countdown-wrapper')
         removeDomElements('store-address-holder') 
         removeDomElements('search-again-button')        
         removeDomElements('sr-only-closing-countdown')
@@ -650,8 +619,6 @@ const renderSearchAgainButton =()=>{
     const storeInfoContentHolder = document.getElementById('store-info-content-holder')
     pageMainElement.appendChild(searchAgainButton)
 }
-
-
 
 const generateSelectStoreDOMWithSearchTerm = (store) => {
     let storeElement = document.createElement('button')
@@ -692,16 +659,10 @@ const generateSelectStoreDOM = (store, currentListOfStores) => {
 }
 
 const selectThisStore =(id, stores)=> {
-    // debugger
-    let filteredStore = stores.filter(store => store.storeId === id)  
-    console.log('filteredStore: ', filteredStore);
+    let filteredStore = stores.filter(store => store.storeId === id)
       
-    renderStoreAddress(filteredStore)
-    console.log('renderStoreAddress: from selectThisStore');
-    
+    renderStoreAddress(filteredStore)    
 }
-
-
 
 const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => { 
     
@@ -776,8 +737,5 @@ const removeDomElements = (elementToDestroy) => {
         }
     } 
 }
-
-
-
 
 export { renderHomeStoreButton, renderScriptTag, renderPageMainElement, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements }

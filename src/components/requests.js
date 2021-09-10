@@ -9,23 +9,6 @@ export async function getStoreByName(searchTerm) {
   return littleStoreList
 }
 
-///////////////
-/////////////
-export async function getStoreById(Id) {
-  console.log('making small fake fetch')
-  const littleStoreList = fakeSmallAPIcallId(stores, Id)
-  return littleStoreList
-}
-
-const fakeSmallAPIcallId = (stores, Id) => {
-  return stores.filter(function (store) {    
-    const isStoreNameMatch = store.storeId.includes(Id)
-    return isStoreNameMatch 
-  })  
-}
-//////////////////////
-/////////////
-
 const fakeSmallAPIcall = (stores, searchTerm) => {
   return stores.filter(function (store) {    
     const isStoreNameMatch = store.storeName.toLowerCase().includes(searchTerm.toString().toLowerCase())
@@ -39,6 +22,23 @@ export async function getallStores() {
    return storeList
  }
 
+ ///////////////
+/////////////
+export async function getStoreById(Id) {
+  console.log('making small fake fetch')
+  const littleStoreList = fakeSmallAPIcallId(stores, Id)
+  return littleStoreList
+}
+
+const fakeSmallAPIcallId = (stores, Id) => {
+  return stores.filter(function (store) {    
+    const isStoreNameMatch = store.storeId.includes(Id)    
+    return isStoreNameMatch 
+  })  
+}
+//////////////////////
+/////////////
+
  ////
 
 //////////////END USE ONLY FOR TESTING/////////////////////////////
@@ -46,13 +46,6 @@ export async function getallStores() {
 //////////////END USE ONLY FOR TESTING/////////////////////////////
 //////////////END USE ONLY FOR TESTING/////////////////////////////
 import { handleSingleQueryResults, setEntireListOfStores } from '../index'
-
-//////////temporary change to fetch store info for testing////////////
-//////////temporary change to fetch store info for testing////////////
-//////////temporary change to fetch store info for testing////////////
-//////////temporary change to fetch store info for testing////////////
-
-
 
 const fetchStoreInfo = async (searchTerm, getAllStores)=> {
   let url = 'http://localhost:3000/vinmonopolet?city=' + searchTerm
@@ -68,10 +61,6 @@ const fetchStoreInfo = async (searchTerm, getAllStores)=> {
     console.log('Problem with our server')
   }
 }
-//////////temporary change to fetch store info for testing////////////
-//////////temporary change to fetch store info for testing////////////
-//////////temporary change to fetch store info for testing////////////
-//////////temporary change to fetch store info for testing////////////
 
 const fetchHomeStore = async (id)=> {
   const response = await fetch('http://localhost:3000/homestore?id=' + id)
@@ -82,10 +71,23 @@ const fetchHomeStore = async (id)=> {
     console.log('Problem with our server')
   }
 }
+////////////////////////////temp////////////////////////////
+////////////////////////////temp////////////////////////////
+////////////////////////////temp////////////////////////////
+////////////////////////////temp////////////////////////////
+
+// if (!getallStores) {
+//   const bullshit = fakeSmallAPIcall(stores, searchTerm)
+//   console.log('bullshit: ', bullshit);
+//   return bullshit
+// } else {
+//  // return getallStores()
+// }
 
 const getStoresSingleQuery = async (searchTerm, searchTermIsMultiple, getAllStores)=>{
-  const preliminaryResult = await fetchStoreInfo(searchTerm , getAllStores)
-  const result = preliminaryResult.storeData
+  const preliminaryResult = await getStoreByName(searchTerm , getAllStores)
+  console.log('preliminaryResult: ', preliminaryResult);
+  const result = preliminaryResult
   if (getAllStores) {
     setEntireListOfStores(result)
     return
@@ -93,11 +95,32 @@ const getStoresSingleQuery = async (searchTerm, searchTermIsMultiple, getAllStor
 
   if (!searchTermIsMultiple) {
     handleSingleQueryResults(result, searchTerm)
+    
+    
   } else {
     return result
   } 
  }
 
+
+// const getStoresSingleQuery = async (searchTerm, searchTermIsMultiple, getAllStores)=>{
+//   const preliminaryResult = await fetchStoreInfo(searchTerm , getAllStores)
+//   const result = preliminaryResult.storeData
+//   if (getAllStores) {
+//     setEntireListOfStores(result)
+//     return
+//   }
+
+//   if (!searchTermIsMultiple) {
+//     handleSingleQueryResults(result, searchTerm)
+//   } else {
+//     return result
+//   } 
+//  }
+/////////////////////temp/////////////////////////////////////////
+/////////////////////temp/////////////////////////////////////////
+/////////////////////temp/////////////////////////////////////////
+/////////////////////temp/////////////////////////////////////////
  const getHomeStoreQuery = async (searchTerm)=>{
   const preliminaryResult = await fetchHomeStore(searchTerm)
   const result = preliminaryResult.storeData

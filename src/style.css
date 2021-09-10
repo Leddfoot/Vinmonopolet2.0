@@ -24,7 +24,7 @@ A MAIN CONTAINER , and then the main container should get the margin 0 auto
 }
 
 /*start countdown timer*/
-#timer-wrapper {
+#countdown-wrapper {
     background-image: url('img/gloriousLiquor.jpg');
     background-size: cover;
     height: 150px;
@@ -44,6 +44,7 @@ A MAIN CONTAINER , and then the main container should get the margin 0 auto
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    color: black
 }
 
 #sr-only-closing-countdown {
@@ -57,7 +58,13 @@ A MAIN CONTAINER , and then the main container should get the margin 0 auto
     overflow: hidden !important;
 }
 
+#not-open-text-wrapper{
+    font-size: 20px;
+}
 
+img {
+    opacity: 0.5;
+  }
 
 /*end countdown timer*/
 
