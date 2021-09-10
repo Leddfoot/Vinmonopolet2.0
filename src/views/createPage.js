@@ -620,12 +620,25 @@ const renderSearchAgainButton =()=>{
     pageMainElement.appendChild(searchAgainButton)
 }
 
-const generateSelectStoreDOMWithSearchTerm = (store) => {
-    let storeElement = document.createElement('button')
-    storeElement.textContent =  `${store.storeName}`  
-    storeElement.setAttribute('id', store.storeId) 
-    storeElement.textContent += ` Contains: ${store.searchedFor}`   
-    storeElement.classList.add('clickable')
+const generateSelectStoreDOMWithSearchTerm = (store, currentListOfStores) => {
+    const storeElement = document.createElement('span')
+    const storeTextElement = document.createElement('button')
+    storeTextElement.textContent =  `${store.storeName}`  
+    storeTextElement.setAttribute('id', store.storeId) 
+    storeTextElement.textContent += ` Contains: ${store.searchedFor}`   
+    storeTextElement.classList.add('clickable')
+    storeElement.appendChild(storeTextElement)
+
+    const storeWasSelected = (event)=>{
+        event.preventDefault()    
+        selectThisStore(event.target.id, currentListOfStores) 
+        removeDomElements('main-search-form')
+        removeDomElements('list-of-store-choices')
+        removeDomElements('sr-only-closing-countdown')
+    }  
+
+   
+    storeTextElement.addEventListener('click', storeWasSelected)
 
     return storeElement
 }
@@ -650,7 +663,7 @@ const generateSelectStoreDOM = (store, currentListOfStores) => {
     }  
 
    
-        storeTextElement.addEventListener('click', storeWasSelected)
+    storeTextElement.addEventListener('click', storeWasSelected)
 
     /////////////////////
     /////////////////////
@@ -689,13 +702,12 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
     if (addSearchedFor) {
             stores.forEach((store) => {
                 let listOfStoreChoices = document.getElementById('list-of-store-choices')
-                let storeElement = generateSelectStoreDOMWithSearchTerm(store)
+                let storeElement = generateSelectStoreDOMWithSearchTerm(store, currentListOfStores)
                 listOfStoreChoices.appendChild(storeElement)
         })
         } else {
             stores.forEach((store) => {
                 let listOfStoreChoices = document.getElementById('list-of-store-choices')
-                // let storeElement = generateSelectStoreDOM(store)
                 let storeElement = generateSelectStoreDOM(store, currentListOfStores)
                 listOfStoreChoices.appendChild(storeElement)
         })

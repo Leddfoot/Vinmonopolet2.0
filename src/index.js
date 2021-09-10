@@ -195,7 +195,7 @@ const filterResults = function (stores, searchTerm){
 
 const handleHomeStore =() =>{
   console.log('note: everything is fetching from local list, not vm api to save requests and test closing times')
-  console.log('todo:must fix the event handlers in the many results button when searching multiple terms;')
+  // console.log('todo:must fix the event handlers in the many results button when searching multiple terms;')
   let homeStore = preferredStore.initialize()
 
   if (homeStore !== 'none set') {
