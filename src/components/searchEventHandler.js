@@ -16,6 +16,7 @@ const createSearchEventHandler=()=>{
       }
       removeDomElements('list-of-store-choices')
       removeDomElements('aria-count-down-element')
+      removeDomElements('no-stores-found')
       let searchTerm = searchInput.value  
       searchTerm = searchTerm.trim()
       setSearchTermIsMultiple(false)
@@ -31,6 +32,7 @@ const createSearchEventHandler=()=>{
         }
         removeDomElements('list-of-store-choices')
         removeDomElements('aria-count-down-element')
+        removeDomElements('no-stores-found')
         let searchTerm = searchInput.value    
         searchTerm = searchTerm.trim()
         setSearchTermIsMultiple(false)
@@ -59,16 +61,13 @@ const handleQuerySubmission =(searchTerm)=> { //This is what makes everything ef
 
   if (!haveDownloadedEntireList) {
     if (!searchTermIsMultiple) {
-      ///////////////////TEMP/////
-      ///////////////////TEMP/////
-      // getStoresSingleQueryTEMPORARY(searchTerm)
-      ///////////////////TEMP/////
-      ///////////////////TEMP/////
       getStoresSingleQuery(searchTerm)
+     
     } else {
       getMultiFetches(searchTerm)
     }
   } else {
+    console.log('here is th e bullshti')
     handleQueryAllInfoIsDownloaded(searchTerm)
   }
 }

@@ -1,12 +1,8 @@
 'use strict'
 import './style.css'
 import { getStoresSingleQuery, getHomeStoreQuery } from './components/requests'
-///////////temporary///////////////////////
-///////////temporary///////////////////////
-import { getStoreByName, getallStores, getStoreById } from './components/requests'
-///////////temporary///////////////////////
-///////////temporary///////////////////////
-import { renderHomeStoreButton, renderScriptTag, renderPageMainElement, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements } from './views/createPage'
+
+import { renderHomeStoreButton, renderScriptTag, renderPageMainElement, checkforInvalidStore, filterOutInvalidStoresFromList, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements } from './views/createPage'
 import { preferredStore } from './components/preferenceStorage'
 
 let haveDownloadedEntireList = false
@@ -52,7 +48,10 @@ const handleQueryAllInfoIsDownloaded =(searchTerm)=> {
   searchTermIsMultiple = getSearchTermIsMultiple()
 
 if (!searchTermIsMultiple) {
+  getentireListOfStores()
+  console.log('entireListOfStoresxx: ', entireListOfStores);
   const filteredStoreList = filterResults(entireListOfStores, searchTerm)
+  console.log('filteredStoreListxx: ', filteredStoreList);
   handlePossibleMatches(filteredStoreList)
   } else {
     let multipleSearchTerms = handleMultipleSearchTerms.divideSearchTerms(searchTerm)
@@ -73,9 +72,9 @@ const filterMultiSearches = (multipleSearchTerms) => {
   return filteredStoreListMultSearch   
 }
 
-const handleSingleQueryResults = function (result, searchTerm){    
-  console.log('result: ', result);
+const handleSingleQueryResults = function (result, searchTerm){ 
       currentListOfStores = [...result]
+      console.log('currentListOfStores: ', currentListOfStores);
       handlePossibleMatches(result, searchTerm) 
 }
 
@@ -144,12 +143,21 @@ const handleMultiMatches =(multiMatches, combinedFetchArrayWODupes) => {
 }
 
 const handlePossibleMatches = (possibleMatches, searchTerm) => {
+  console.log('possibleMatches: ', possibleMatches);
   if (possibleMatches.length === 1){
+    const isNotValid = checkforInvalidStore(...possibleMatches)
+    if (isNotValid) {
+      renderNoStoresFound()
+      return
+    }
     renderStoreAddress(possibleMatches)
-    console.log('renderStoreAddress:from handle possible matches ');
   } else if (possibleMatches.length > 1 && possibleMatches.length <= 10) {
     let moreResultsToDisplay = false
-    renderStores(possibleMatches, moreResultsToDisplay, currentListOfStores) 
+    if (possibleMatches.length === 0) {
+      renderNoStoresFound()
+    }
+    console.log('filteredPossibleMatches: ', filteredPossibleMatches);
+    renderStores(filteredPossibleMatches, moreResultsToDisplay, currentListOfStores)
   } else if (possibleMatches.length > 1) { 
     listToPaginate = possibleMatches
     getNext10OrFewerResults(currentListOfStores)
@@ -159,14 +167,18 @@ const handlePossibleMatches = (possibleMatches, searchTerm) => {
     getStoresSingleQuery(searchTerm, searchTermIsMultiple ,true)
     .then(() => {
     console.log('have downloaded entire list')
-    setHaveDownloadedEntireList(true)           
-    entireListOfStores = getentireListOfStores()      
+    console.log('gotta get all stores here')
+    setHaveDownloadedEntireList(true)   
     currentListOfStores = entireListOfStores     
+    console.log('currentttttttttttttttListOfStores: ', currentListOfStores);
+    
     possibleMatches = filterResults(entireListOfStores, searchTerm)       
+    console.log('entireListOfStoresttttttttttttttt: ', entireListOfStores);
     handlePossibleMatches(possibleMatches)
-    }).catch((err) => {
-    console.log(`Error: ${err}`)
     })
+    // .catch((err) => {
+    // console.log(`Error: ${err}`)
+    // })
   }
 }
 
@@ -181,6 +193,7 @@ const getNext10OrFewerResults = (currentListOfStores) => {
 }
 
 const filterResults = function (stores, searchTerm){
+  console.log('storesrrrrrrrrr: ', stores);
   return stores.filter(function (store) {
     
     const isCityMatch = store.address.city.toLowerCase().includes(searchTerm.toString().toLowerCase())
@@ -194,8 +207,9 @@ const filterResults = function (stores, searchTerm){
 }
 
 const handleHomeStore =() =>{
-  console.log('note: everything is fetching from local list, not vm api to save requests and test closing times')
-  // console.log('todo:must fix the event handlers in the many results button when searching multiple terms;')
+  console.log('TODO: test against exception hours...see commented example at end of index.js')
+  console.log('bug: This store has already closed today at 14:00. undefined')
+  console.log('TODO: When the countdown timer reaches zero, the right thing is not happening')
   let homeStore = preferredStore.initialize()
 
   if (homeStore !== 'none set') {
@@ -204,31 +218,16 @@ const handleHomeStore =() =>{
 
     let homeStoreId = preferredStore.getHomeStore()
 
-    // const fetchHomeStoreInfo = async ()=> {
-    //   const homeStoreInfo = await getHomeStoreQuery(homeStoreId)
-    //   return homeStoreInfo
-    // }
-
-    
-    // fetchHomeStoreInfo().then((result) => {
-    //   console.log('renderStoreAddress from fetchHomeStoreInfo: ');
-    //   renderStoreAddress(result)
-    // })
-
-    ////////////////////temporary
-    ////////////////////temporary
     const fetchHomeStoreInfo = async ()=> {
-      const homeStoreInfo = await getStoreById(homeStoreId)
+      const homeStoreInfo = await getHomeStoreQuery(homeStoreId)
       return homeStoreInfo
     }
 
     
     fetchHomeStoreInfo().then((result) => {
+      console.log('renderStoreAddress from fetchHomeStoreInfo: ');
       renderStoreAddress(result)
     })
-    ////////////////////temporary
-    ////////////////////temporary
-
 
   } else {
     setDisplayingHomeStore(false)
@@ -241,8 +240,44 @@ handleHomeStore()
 export { setEntireListOfStores, handleQueryAllInfoIsDownloaded, handleSingleQueryResults, getHaveDownloadedEntireList, haveDownloadedEntireList, getSearchTermIsMultiple, getNext10OrFewerResults, setSearchTermIsMultiple, listToPaginate, setDisplayingHomeStore, getStoreOpenStatus, getDisplayingHomestore, displayingHomeStore, currentListOfStores, setStoreOpenStatus, handleMultipleSearchTerms, getMultiFetches }
 
 
- 
+// "exceptionHours": {
+//   "type": "array",
+//   "items": {
+//       "type": "object",
+//       "properties": {
+//           "date": {
+//               "type": "string",
+//               "description": "Exception date"
+//           },
+//           "openingTime": {
+//               "type": "string",
+//               "description": "Opening hours"
+//           },
+//           "closingTime": {
+//               "type": "string",
+//               "description": "Closing hours"
+//           },
+//           "message": {
+//               "type": "string",
+//               "description": ""
+//           }
+//       }
 
+
+
+    ////////////////////temporary
+    ////////////////////temporary
+    // const fetchHomeStoreInfo = async ()=> {
+    //   const homeStoreInfo = await getStoreById(homeStoreId)
+    //   return homeStoreInfo
+    // }
+
+    
+    // fetchHomeStoreInfo().then((result) => {
+    //   renderStoreAddress(result)
+    // })
+    ////////////////////temporary
+    ////////////////////temporary
  
   
   

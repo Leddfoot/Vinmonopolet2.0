@@ -1,73 +1,16 @@
-/* OK IT looks as though it may be smart to use margin 0 auto only on..
-everything BUT NOT HEADER AND FOOTER,THESE SHOULD BE MOVED OUTSIDE OF...
-A MAIN CONTAINER , and then the main container should get the margin 0 auto
-*/
-
-
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@700&display=swap');
 
 *{
     margin: 0 auto; 
     padding: 0;
     box-sizing: border-box;
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
     text-align: center;
 }
 
-#footer-wrapper {
-    background-color: black;
-    position: fixed;
-    bottom: 0;
-    
-  margin: auto;
-  width: 100%;
+::root {
+    font-size: 16px;
 }
-
-/*start countdown timer*/
-#countdown-wrapper {
-    background-image: url('img/gloriousLiquor.jpg');
-    background-size: cover;
-    height: 150px;
-    width: 80%;
-    margin: auto;
-    background-repeat: no-repeat;
-    background-position: center center;
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 40px;
-
-}
-
-#hour-wrapper, #minute-wrapper, #second-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: black
-}
-
-#sr-only-closing-countdown {
-    position: absolute;
-    height: 1px;
-    width: 1px;
-    clip: rect(1px 1px 1px 1px); 
-    clip: rect(1px,1px,1px,1px);
-    clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
-    -webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
-    overflow: hidden !important;
-}
-
-#not-open-text-wrapper{
-    font-size: 20px;
-}
-
-img {
-    opacity: 0.5;
-  }
-
-/*end countdown timer*/
-
 
 
 
@@ -79,155 +22,43 @@ body {
     color: white; 
       
 }
-#todo {
-    background-color: red;
-    font-size: 6px;
-}
 
-/*this will hold the footer stuck*/
-#page-main-element{
-    margin-bottom: 4%;
-}
-
-/*start test flex*/
-
-#right-text{
-    width: 90%;
-    display: inline; /*makes the two spans sit together instead of stacking vertically*/
-    float: left; /*pulls to the side of the div*/
-    padding-left: 10px;
-}
-.fa-check-square:before {
-    position: relative; /*The icon was glitching upwards, this plus height in icon fixed it*/
-    top: 14%;
-}
-#test-icon{
-    height: 20px; /*dont change this needed for vertical centering in fa-check-square:before */
-    width: 10%;
-    display: inline; /*makes the two spans sit together instead of stacking vertically*/
-    float: right;/*pulls to the side of the div*/
-    padding-right: 10px;
-}
-.right{
-    padding:0;
-    margin:0 auto;
-    background-color: green;
-    grid-column:  4/ span 1;
-    grid-row: 1/ span 2;
-    /* align-self: center; */
-}
-.test-wrapper{  
-    height: 20px;
-    width: auto;
-    outline: 1px solid red;
-    display: grid;
-    grid-template-columns: 22% auto 22%;    
-}
-
-
-
-
-/*end test flex*/
-
-/*start test 2*/
-
-#test2-wrapper{
-    background-color: blue;
-    width: 20%;
-    flex-direction: row;
-    float: right;
-    margin-right: 5%;
-    /* visibility: hidden; */
-}
-#test2-text{
-    display: inline;
-    float: left;
-    padding-left: 10%;
-}
-#test2-icon{
-    float: right;
-    padding-right: 15px;
-    padding-top: 1.5%;
-    display: inline;
-    align-self: center;
-    
-} 
-
-/*end test 2*/
-
-/*start homestore button*/
-
-#home-store-button{
-    background-color: blue;
-    width: 300px;
-    flex-direction: row;
-    float: right;
-    margin-right: 5%;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-#home-store-text{
-    display: inline;
-    float: left;
-    padding-left: 10%;
-}
-#home-store-icon{
-    float: right;
-    padding-right: 15px;
-    padding-top: 1.5%;
-    display: inline;
-    align-self: center;
-    
-} 
-
-/*end homestore button*/
-
-
-
-
-
-
+/* @media only screen and (min-width: 880px) {
+    #home-store-icon{
+        padding-top: 2vw;
+        
+    }
+} */
 
 /* For desktop: */
 @media only screen and (min-width: 1px) {
-
-/* begin test section homestore */
-/* #test-div {
-    background-color: green;
-    color: yellow;
-    height: 50px;
-}
-
-.fa-solid fa-square-check {
-    outline: 1px solid red;
-    height: 90px;
-    width: 50%;
-    color: white;
-} */
-
-/* end test section homestore */
     
 /* begin main header */
         #main-header{
             background-color: whitesmoke;
             color: black;
-            width: 90%;
+            width: 80%;
             padding: 20px;
-            margin: 25px auto;
+            margin: 1vh auto;
             border-radius: 17px;
-            font-size: 24px; 
-        }
+            display: flex;
+            flex-direction: columns;
+            align-items: center
+
+        } 
     
-        #canvas {
-            height: 115;
-            width: 115;
+         #canvas {
+            margin: .5rem;
+            height: 5vw;
+            width: 5vw;
             float: right;
         }
         
         #page-title{
-            float: left;
-            font-size: larger;
-        }
+            float: left;            
+            font-size: 4.5vw; 
+            letter-spacing: -2px;
+        } 
         
         /*clearfix*/
         #main-header:after { 
@@ -235,11 +66,7 @@ body {
             display: table;
             clear: both;
         }
-    
-        #main-header {
-            display: flex;
-            align-items: center
-        }
+
     
 /* end main header */
 
@@ -253,6 +80,8 @@ body {
     .search-wrap {
         width: 100%;
         margin: 30px auto;
+        padding-top: 40px;
+
     }
 
     .search-wrap .search-box {
@@ -310,14 +139,14 @@ body {
 /*begin buttons */
 
     /*clickable buttons (these are the search results)*/
-
     .clickable {
         display: block;
         margin-top: 12px;
         background-color: whitesmoke;
         padding: 5px 10px;
-        width: 60%;
+        width: 80%;
         border-radius: 5px;
+        font-weight: bold;
     }
 
     .clickable:hover {
@@ -325,7 +154,6 @@ body {
         color: whitesmoke
     }
 
-    /*all buttons except .clickable */
     #show-more-results, #search-again-button {
         display: block;
         background-color: #333;
@@ -340,37 +168,169 @@ body {
         color:black
     }
 
+    /*start homestore button NOTE: This is not technically a button but acts as one, and is accessible*/
+
+#home-store-button{
+    background-color: #575757;
+    color: whitesmoke;
+    border-left: 2px inset white;
+    border-top: 2px inset white;
+    border-radius: 3px;
+    padding: 2px;
+    width: 30vw;
+    
+    flex-direction: row;
+    float: right;
+    margin:1vh 10% 1vh 0;
+}
+
+#home-store-button:hover {
+    background-color: whitesmoke;
+    color: #575757;
+    border-left: 2px inset yellow;
+    border-top: 2px inset yellow;
+}
+#home-store-text{
+    display: inline;
+    float: left;
+    padding-left: 5%;
+    font-size: 2vw;
+    align-self: center;
+}
+#home-store-icon{
+    float: right;
+    /* padding-top: 1.5%; */
+    display: inline;
+    align-self: center;
+    
+    
+} 
+
+icon{
+    font-size: 3vw;
+}
+
+/*end homestore button*/
+
 /*end buttons */
 
-/*#canvas do not set height or width here, glitchy, in js instead*/
 
-/*
-ok, for some reason the time and date elements will not display block
-so either just run them together, date first then time or, try grid display
-*/
+
 #time-and-date-element {
-    width: 90%;
-    margin-top: 30px;
-    position: relative; /*need this to position the button absolute*/
+    margin-top: 4vh;
+    font-size: 3vw;
 }
 
-#time-and-date-element:after {
-    content:"";
-    display: table;
-    clear: both;
+#store-address-holder{
+    font-size: 2.5vw;
 }
 
-#date-wrapper-div {
-    display: block;
+
+/*start countdown timer*/
+
+#countdown-wrapper {
+    background-image: url('img/gloriousLiquor2.jpg');
+    background-size: cover;
+    height: 150px;
+    width: 80%;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 40px;
 }
 
-#time-wrapper-div {
-    display: block;
+#hour-wrapper, #minute-wrapper, #second-wrapper, #icon-wrapper {
+    background-color: grey;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: 3px solid white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
 }
 
-#store-info-content-holder {
-    margin-top: 30px;
+/* #icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+} */
+
+.fa-check-circle:before {
+   color: white;
+   border: 3px solid green;
+   border-radius: 50px;
 }
+
+#open-closed-label {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#hours-label {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 2rem;
+}
+#minutes-label {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 2rem;
+}
+#seconds-label {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 2rem;
+}
+
+#sr-only-closing-countdown {
+    position: absolute;
+    height: 1px;
+    width: 1px;
+    clip: rect(1px 1px 1px 1px); 
+    clip: rect(1px,1px,1px,1px);
+    clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+    -webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+    overflow: hidden !important;
+}
+
+#not-open-text-wrapper{
+    font-size: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 7%;
+    padding-right: 7%;
+}
+/*end countdown timer*/
+
+/*keeps content from scrolling behind the footer*/
+#page-main-element{
+    margin-bottom: 4%;
+}
+
+/*begin footer*/
+#footer-wrapper {
+    background-color: black;
+    position: fixed;
+    bottom: 0;    
+    margin: auto;
+    width: 100%;
+}
+/*end footer*/
 
 
         
