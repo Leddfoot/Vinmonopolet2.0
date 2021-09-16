@@ -1,6 +1,6 @@
 'use strict'
 import './style.css'
-import { getStoresSingleQuery, getHomeStoreQuery } from './components/requests'
+import { getStoresSingleQuery, getStoreById } from './components/requests'
 
 import { renderHomeStoreButton, renderScriptTag, renderPageMainElement, checkforInvalidStore, filterOutInvalidStoresFromList, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements } from './views/createPage'
 import { preferredStore } from './components/preferenceStorage'
@@ -143,7 +143,6 @@ const handleMultiMatches =(multiMatches, combinedFetchArrayWODupes) => {
 }
 
 const handlePossibleMatches = (possibleMatches, searchTerm) => {
-  console.log('possibleMatches: ', possibleMatches);
   if (possibleMatches.length === 1){
     const isNotValid = checkforInvalidStore(...possibleMatches)
     if (isNotValid) {
@@ -156,8 +155,7 @@ const handlePossibleMatches = (possibleMatches, searchTerm) => {
     if (possibleMatches.length === 0) {
       renderNoStoresFound()
     }
-    console.log('filteredPossibleMatches: ', filteredPossibleMatches);
-    renderStores(filteredPossibleMatches, moreResultsToDisplay, currentListOfStores)
+    renderStores(possibleMatches, moreResultsToDisplay, currentListOfStores)
   } else if (possibleMatches.length > 1) { 
     listToPaginate = possibleMatches
     getNext10OrFewerResults(currentListOfStores)
@@ -167,18 +165,13 @@ const handlePossibleMatches = (possibleMatches, searchTerm) => {
     getStoresSingleQuery(searchTerm, searchTermIsMultiple ,true)
     .then(() => {
     console.log('have downloaded entire list')
-    console.log('gotta get all stores here')
     setHaveDownloadedEntireList(true)   
-    currentListOfStores = entireListOfStores     
-    console.log('currentttttttttttttttListOfStores: ', currentListOfStores);
-    
-    possibleMatches = filterResults(entireListOfStores, searchTerm)       
-    console.log('entireListOfStoresttttttttttttttt: ', entireListOfStores);
+    currentListOfStores = entireListOfStores    
+    possibleMatches = filterResults(entireListOfStores, searchTerm)     
     handlePossibleMatches(possibleMatches)
+    }).catch((err) => {
+    console.log(`Error: ${err}`)
     })
-    // .catch((err) => {
-    // console.log(`Error: ${err}`)
-    // })
   }
 }
 
@@ -208,8 +201,7 @@ const filterResults = function (stores, searchTerm){
 
 const handleHomeStore =() =>{
   console.log('TODO: test against exception hours...see commented example at end of index.js')
-  console.log('bug: This store has already closed today at 14:00. undefined')
-  console.log('TODO: When the countdown timer reaches zero, the right thing is not happening')
+  console.log('TODO: check that aria counter works')
   let homeStore = preferredStore.initialize()
 
   if (homeStore !== 'none set') {
@@ -218,16 +210,30 @@ const handleHomeStore =() =>{
 
     let homeStoreId = preferredStore.getHomeStore()
 
+        //////////////////temporary
+    //////////////////temporary
     const fetchHomeStoreInfo = async ()=> {
-      const homeStoreInfo = await getHomeStoreQuery(homeStoreId)
+      const homeStoreInfo = await getStoreById(homeStoreId)
       return homeStoreInfo
     }
 
     
     fetchHomeStoreInfo().then((result) => {
-      console.log('renderStoreAddress from fetchHomeStoreInfo: ');
       renderStoreAddress(result)
     })
+    //////////////////temporary
+    //////////////////temporary
+
+    // const fetchHomeStoreInfo = async ()=> {
+    //   const homeStoreInfo = await getHomeStoreQuery(homeStoreId)
+    //   return homeStoreInfo
+    // }
+
+    
+    // fetchHomeStoreInfo().then((result) => {
+    //   console.log('renderStoreAddress from fetchHomeStoreInfo: ');
+    //   renderStoreAddress(result)
+    // })
 
   } else {
     setDisplayingHomeStore(false)

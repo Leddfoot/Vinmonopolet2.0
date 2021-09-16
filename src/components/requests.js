@@ -54,7 +54,7 @@ const getStoresSingleQuery = async (searchTerm, searchTermIsMultiple, getAllStor
 //////////////BEGIN USE ONLY FOR TESTING/////////////////////////////
 
 
-// import { stores } from './stores' //for testing (countdown, change closing times)
+import { stores } from './stores' //for testing (countdown, change closing times)
 // export async function getStoreByName(searchTerm, getAllStores) {
 //   console.log('making small fake fetch')
 //   if (getAllStores) {
@@ -82,18 +82,18 @@ const getStoresSingleQuery = async (searchTerm, searchTermIsMultiple, getAllStor
 
  ///////////////
 /////////////
-// export async function getStoreById(Id) {
-//   console.log('making small fake fetch')
-//   const littleStoreList = fakeSmallAPIcallId(stores, Id)
-//   return littleStoreList
-// }
+export async function getStoreById(Id) {
+  console.log('making small fake fetch')
+  const littleStoreList = fakeSmallAPIcallId(stores, Id)
+  return littleStoreList
+}
 
-// const fakeSmallAPIcallId = (stores, Id) => {
-//   return stores.filter(function (store) {    
-//     const isStoreNameMatch = store.storeId.includes(Id)    
-//     return isStoreNameMatch 
-//   })  
-// }
+const fakeSmallAPIcallId = (stores, Id) => {
+  return stores.filter(function (store) {    
+    const isStoreNameMatch = store.storeId.includes(Id)    
+    return isStoreNameMatch 
+  })  
+}
 //////////////////////
 /////////////
 

@@ -65,7 +65,9 @@ const getTodayNumericConvertedToVinmonpolet =()=>{
 }
 
  const generateStoreOpenStatus = (store)=>{
-    let now2 = new Date(now.valueOf())
+    let now2 = '' ;
+    now2 = Date.now()
+    console.log('now2: ', now2);
 
     let status = {}   
 
@@ -77,7 +79,7 @@ const getTodayNumericConvertedToVinmonpolet =()=>{
     let todayNumericConvertedToVinmonopolet = getTodayNumericConvertedToVinmonpolet()
 
     let storeHours = store[0].openingHours.regularHours
-
+    console.log('storeHours: ', storeHours);
     if (storeHours[todayNumericConvertedToVinmonopolet].closed === true) {
         status.closedAllDay = true        
     } else {
@@ -95,9 +97,7 @@ const getTodayNumericConvertedToVinmonpolet =()=>{
     }  else {
         status.hasOpened = false
     }
-    // console.log('convertedClosingTime: ', convertedClosingTime);
-    // console.log('now2: ', now2);
-    // console.log('now: ', now);
+ 
     if (now2 < convertedClosingTime) {
         
         
