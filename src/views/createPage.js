@@ -419,12 +419,22 @@ const renderCounter = () => {
     const secondsLabel = document.createElement('div')
     secondsLabel.setAttribute('id', 'seconds-label')
 
+    const hoursLabelMobile = document.createElement('span')
+    hoursLabelMobile.setAttribute('id', 'hours-label-mobile')
+    const minutesLabelMobile = document.createElement('span')
+    minutesLabelMobile.setAttribute('id', 'minutes-label-mobile')
+    const secondsLabelMobile =  document.createElement('span')
+    secondsLabelMobile.setAttribute('id', 'seconds-label-mobile')
+
     hourWrapper.appendChild(hoursText)
     hourWrapper.appendChild(hoursLabel)
+    hourWrapper.appendChild(hoursLabelMobile)
     minuteWrapper.appendChild(minutesText)
     minuteWrapper.appendChild(minutesLabel)
+    minuteWrapper.appendChild(minutesLabelMobile)
     secondWrapper.appendChild(secondsText)
     secondWrapper.appendChild(secondsLabel)
+    secondWrapper.appendChild(secondsLabelMobile)
 
     let countdownWrapper = document.getElementById('countdown-wrapper')
 
@@ -469,7 +479,14 @@ function startCountdownTimer() {
         
     } else {
         renderTimeLeft(timeUntilClosing)
-        countdownTimer = setTimeout(startCountdownTimer, 1000)
+            //////////////////temporary//////////////////////
+    //////////////////temporary//////////////////////
+    clearTimeout(countdownTimer)
+    //////////////////temporary//////////////////////
+    //////////////////temporary//////////////////////
+
+
+        // countdownTimer = setTimeout(startCountdownTimer, 1000)
     }
 
 }
@@ -506,10 +523,6 @@ const renderTimeLeft = (timeUntilClosing) => {
     const hoursRemaining = timeUntilClosing.hours
     const minutesRemaining = timeUntilClosing.minutes
     const secondsRemaining = timeUntilClosing.seconds
-
-
-    //////////test///////
-    //////////test//////
     const iconWrapper = document.getElementById('icon-wrapper')
     let openClosedIcon = document.createElement('icon')
     let openClosedText = document.createElement('span')
@@ -518,9 +531,6 @@ const renderTimeLeft = (timeUntilClosing) => {
     openClosedText.textContent = 'Open for:'
     iconWrapper.appendChild(openClosedIcon)
     iconWrapper.appendChild(openClosedText)
-    // <i class="fas fa-times-circle"></i>
-    //////////test///////
-    //////////test///////
 
     const hoursText = document.getElementById('hours-remaining')
     const minutesText = document.getElementById('minutes-remaining')
@@ -534,13 +544,25 @@ const renderTimeLeft = (timeUntilClosing) => {
     const minutesLabel = document.getElementById('minutes-label')
     const secondsLabel = document.getElementById('seconds-label')
 
+    const hoursLabelMobile = document.getElementById('hours-label-mobile')
+    const minutesLabelMobile = document.getElementById('minutes-label-mobile')
+    const secondsLabelMobile = document.getElementById('seconds-label-mobile')
+
     const hoursLabelText = (hoursRemaining !== 1) ? 'Hours' : 'Hour' //note it should be 0 hours not 0 hour & 1hour same applies below
     const minutesLabelText = (minutesRemaining !== 1) ? 'Minutes' : 'Minute'
     const secondsLabelText = (secondsRemaining !== 1) ? 'Seconds' : 'Second'
 
+    const hoursLabelMobileText = 'HH'
+    const minutesLabelMobileText = 'MM'
+    const secondsLabelMobileText = 'SS'
+
     hoursLabel.textContent = hoursLabelText
     minutesLabel.textContent = minutesLabelText
     secondsLabel.textContent = secondsLabelText
+
+    hoursLabelMobile.textContent = hoursLabelMobileText
+    minutesLabelMobile.textContent = minutesLabelMobileText
+    secondsLabelMobile.textContent = secondsLabelMobileText
 
 }
 

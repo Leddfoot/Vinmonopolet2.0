@@ -23,15 +23,311 @@ body {
       
 }
 
-/* @media only screen and (min-width: 880px) {
-    #home-store-icon{
-        padding-top: 2vw;
-        
+/*start mobile style*/
+
+/*start homestore button NOTE: This is not technically a button but acts as one, and is accessible*/
+
+#home-store-button{
+    background-color: #575757;
+    color: whitesmoke;
+    border-left: 2px inset white;
+    border-top: 2px inset white;
+    border-radius: 3px;
+    padding: 2px;
+    width: 30vw;
+    
+    flex-direction: row;
+    float: right;
+    margin:2vh 10% 3vh 0;
     }
-} */
+    
+    #home-store-button:hover {
+    background-color: whitesmoke;
+    color: #575757;
+    border-left: 2px inset yellow;
+    border-top: 2px inset yellow;
+    }
+    #home-store-text{
+    display: inline;
+    float: left;
+    padding-left: 5%;
+    padding-top: 5px;
+    font-size: 2vw;
+    align-self: center;
+    }
+    #home-store-icon{
+    float: right;
+    
+    display: inline;
+    align-self: center;
+    
+    
+    } 
+    
+    icon{
+    font-size: 3vw;
+    }
+    
+    /*end homestore button*/
+
+/* begin main header */
+#main-header{
+    max-height: 15vh;
+    background-color: whitesmoke;
+    color: black;
+    width: 80%;
+    padding: 20px;
+    margin: 3vh auto;
+    border-radius: 17px;
+    display: flex;
+    flex-direction: columns;
+    align-items: center
+
+} 
+
+ #canvas {
+    margin: .5rem;
+    height: 10vw;
+    width: 10vw;
+    float: right;
+}
+
+#page-title{
+    float: left;            
+    font-size: 5vw; 
+} 
+
+/*clearfix*/
+#main-header:after { 
+    content:"";
+    display: table;
+    clear: both;
+}
+
+
+/* end main header */
+
+/* begin search bar */
+.input {
+border: 0;
+outline: none;
+background-color: whitesmoke;
+} 
+
+.search-wrap {
+width: 100%;
+margin: 30px auto;
+padding-top: 30px;
+
+}
+
+.search-wrap .search-box {
+position: relative;
+width: 80%;
+height: 60px;
+}
+
+.search-wrap .search-box .input {
+position: absolute;
+top:0;
+left:0;
+width: 100%;
+height: 100%;
+padding: 10px 20px;
+border-radius: 7px;
+font-size: 18px;
+text-align: left;
+}
+
+.search-wrap .search-box .btn.btn-common .fas {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+color: #fff;
+font-size: 20px;
+}
+
+.search-wrap .search-box .btn{
+right: 0;
+border-top-right-radius: 7px;
+border-bottom-right-radius: 7px;
+}
+
+#search-button {
+position: absolute;
+top:0;
+right:0;
+width: 60px;
+height: 100%;
+background: #333;
+z-index: 1;
+cursor: pointer;    
+border-top-right-radius: 7px;
+border-bottom-right-radius: 7px;
+}
+
+.search-wrap .search-box .btn #search-button:hover {
+background: black;
+}
+
+/* end search bar */
+
+/*begin buttons */
+
+/*clickable buttons (these are the search results)*/
+.clickable {
+display: block;
+margin-top: 12px;
+background-color: whitesmoke;
+padding: 5px 10px;
+width: 80%;
+border-radius: 5px;
+font-weight: bold;
+}
+
+.clickable:hover {
+background-color: #333;
+color: whitesmoke
+}
+
+#show-more-results, #search-again-button {
+display: block;
+background-color: #333;
+color: whitesmoke;
+margin-top: 15px;
+border-radius: 3px;
+padding: 10px;
+}
+
+#show-more-results:hover, #search-again-button:hover, #home-store-button:hover {
+background-color: whitesmoke;
+color:black
+}
+
+
+
+/*end buttons */
+
+
+
+#time-and-date-element {
+margin-top: 4vh;
+font-size: 5vw;
+}
+
+#store-address-holder{
+font-size: 4vw;
+margin: 0 8vw 0 8vw;
+}
+
+
+/*start countdown timer*/
+
+#countdown-wrapper {
+background-color: grey;
+background-size: cover;
+height: 150px;
+width: 80%;
+margin: auto;
+background-repeat: no-repeat;
+background-position: center center;
+margin-top: 20px;
+margin-bottom: 40px;
+display: flex;
+justify-content: space-between;
+font-size: 40px;
+border-radius: 2vw;
+}
+
+#hours-label, #minutes-label, #seconds-label {
+    display: none;
+    
+}
+
+
+#hour-wrapper, #minute-wrapper, #second-wrapper, #icon-wrapper {
+background-color: grey;
+flex-grow: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+color: white;
+border: none;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.fa-check-circle:before {
+color: white;
+border: 3px solid green;
+border-radius: 50px;
+}
+
+#open-closed-label {
+margin-top: 20px;
+font-size: 1.5rem;
+padding-left: 5px;
+padding-right: 5px;
+}
+
+#hours-label {
+padding-left: 5px;
+padding-right: 5px;
+font-size: 2rem;
+}
+#minutes-label {
+padding-left: 5px;
+padding-right: 5px;
+font-size: 2rem;
+}
+#seconds-label {
+padding-left: 5px;
+padding-right: 5px;
+font-size: 2rem;
+}
+
+#sr-only-closing-countdown {
+position: absolute;
+height: 1px;
+width: 1px;
+clip: rect(1px 1px 1px 1px); 
+clip: rect(1px,1px,1px,1px);
+clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+-webkit-clip-path: polygon(0px 0px, 0px 0px, 0px 0px);
+overflow: hidden !important;
+}
+
+#not-open-text-wrapper{
+font-size: 4vw;
+display: flex;
+justify-content: center;
+align-items: center;
+padding-left: 7%;
+padding-right: 7%;
+}
+/*end countdown timer*/
+
+/*keeps content from scrolling behind the footer*/
+#page-main-element{
+margin-bottom: 20%;
+}
+
+/*begin footer*/
+#footer-wrapper {
+background-color: black;
+position: fixed;
+bottom: 0;    
+margin: auto;
+width: 100%;
+}
+/*end footer*/
+
+/*end mobile style*/
 
 /* For desktop: */
-@media only screen and (min-width: 1px) {
+@media only screen and (min-width: 575px) {
     
 /* begin main header */
         #main-header{
@@ -158,7 +454,7 @@ body {
         display: block;
         background-color: #333;
         color: whitesmoke;
-        margin-top: 25px;
+        margin-top: 15px;
         border-radius: 3px;
         padding: 10px;
     }
@@ -194,12 +490,13 @@ body {
     display: inline;
     float: left;
     padding-left: 5%;
+    padding-top: 0;
     font-size: 2vw;
     align-self: center;
 }
 #home-store-icon{
     float: right;
-    /* padding-top: 1.5%; */
+    /* padding-top: 5%; */
     display: inline;
     align-self: center;
     
@@ -217,16 +514,13 @@ icon{
 
 
 #time-and-date-element {
-    margin-top: 4vh;
-    font-size: 3vw;
-}
-
-#store-address-holder{
+    margin-top: 2vh;
     font-size: 2.5vw;
 }
 
-
-/*start countdown timer*/
+#store-address-holder{
+    font-size: 2vw;
+}
 
 #countdown-wrapper {
     background-image: url('img/gloriousLiquor2.jpg');
@@ -243,10 +537,27 @@ icon{
     font-size: 40px;
 }
 
-#hour-wrapper, #minute-wrapper, #second-wrapper, #icon-wrapper {
-    background-color: grey;
+
+
+
+/*Note: Entire countdown wrapper is hidden from screen readers and replaced with an element that doesnt render
+    every second, so that it can be read, countdown wrapper is aria-hidden, so nothing hidden here will be 
+    shown to screen readers*/
+#hours-label-mobile, #minutes-label-mobile, #seconds-label-mobile{     
+    background-color: 1px solid red;
+    visibility:hidden;
+    width: 0;
+    height: 0;
+}
+#hours-label, #minutes-label, #seconds-label {
+    display: block;
     
+}
+
+#hour-wrapper, #minute-wrapper, #second-wrapper, #icon-wrapper {
+    background-color: grey;    
     display: flex;
+    flex-grow: 0;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -257,15 +568,6 @@ icon{
     border-radius: 15px;
 }
 
-/* #icon-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    margin-top: 10px;
-    margin-bottom: 10px;
-} */
 
 .fa-check-circle:before {
    color: white;
@@ -294,6 +596,10 @@ icon{
     padding-left: 5px;
     padding-right: 5px;
     font-size: 2rem;
+}
+
+#hours-label-mobile, #minutes-label-mobile, #seconds-label-mobile {
+    display: none;
 }
 
 #sr-only-closing-countdown {
