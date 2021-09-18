@@ -2,11 +2,8 @@ import { setStoreOpenStatus } from '../index'
 let selectedStoreHolidays = {}
 let filteredHoliday = null
 
-
-
 const now = new Date()
 
-// const now = new Date(2021,6,25,17,49,59)
 const nowYear = now.getFullYear(now)
 const nowMonth = now.getMonth(now)
 const nowDate = now.getDate(now)
@@ -41,7 +38,7 @@ const isTodayHoliday = (selectedStoreHolidays) => {
     const todayAsArray = todayDateForHolidayCheck.split('.')
     const convertedToday = `${todayAsArray[0]}-${todayAsArray[1]}-${todayAsArray[2]}`
 
-    function isTodayHoliday (selectedStoreHolidays) {
+    function isTodayHoliday (selectedStoreHolidays) {    
         return selectedStoreHolidays.date === convertedToday
     }
 
@@ -67,7 +64,6 @@ const getTodayNumericConvertedToVinmonpolet =()=>{
  const generateStoreOpenStatus = (store)=>{
     let now2 = '' ;
     now2 = Date.now()
-    console.log('now2: ', now2);
 
     let status = {}   
 
@@ -79,7 +75,7 @@ const getTodayNumericConvertedToVinmonpolet =()=>{
     let todayNumericConvertedToVinmonopolet = getTodayNumericConvertedToVinmonpolet()
 
     let storeHours = store[0].openingHours.regularHours
-    console.log('storeHours: ', storeHours);
+
     if (storeHours[todayNumericConvertedToVinmonopolet].closed === true) {
         status.closedAllDay = true        
     } else {
@@ -98,9 +94,7 @@ const getTodayNumericConvertedToVinmonpolet =()=>{
         status.hasOpened = false
     }
  
-    if (now2 < convertedClosingTime) {
-        
-        
+    if (now2 < convertedClosingTime) {   
         status.hasClosed = false        
     } else {
         status.hasClosed = true
@@ -119,7 +113,6 @@ const getTodayNumericConvertedToVinmonpolet =()=>{
     }
 
     return status    
-    console.log('status: ', status);
 }
 
 const convertTimeStringToProperDate =(timeString)=> {
@@ -138,20 +131,6 @@ const convertTimeStringToProperDate =(timeString)=> {
     return convertedTime    
 }
 
-const getCountDownTimeRemaining =(closingTimeConverted)=> {
-    const constantlyChangingNow = new Date()
+const bullshit =()=>{}
 
-    const timeLeft = {}
-    const timeuntilclosing = closingTimeConverted - constantlyChangingNow
-    
-    timeLeft.hours = Math.floor((timeuntilclosing % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    timeLeft.minutes = Math.floor((timeuntilclosing % (1000 * 60 * 60)) / (1000 * 60))
-    timeLeft.seconds = Math.floor((timeuntilclosing % (1000 * 60)) / 1000)
-    timeLeft.hours - timeLeft.minutes - timeLeft.seconds
- 
-    return timeLeft
- 
-
-}
-
-export { setSelectedStoreHolidays, isTodayHoliday, filteredHoliday, formattedCurrentTime, todayDateForDisplay, generateStoreOpenStatus, getCountDownTimeRemaining, convertTimeStringToProperDate, formatCurrentTime, getTodayNumericConvertedToVinmonpolet }
+export { bullshit, setSelectedStoreHolidays, isTodayHoliday, filteredHoliday, formattedCurrentTime, todayDateForDisplay, generateStoreOpenStatus, convertTimeStringToProperDate, formatCurrentTime, getTodayNumericConvertedToVinmonpolet }

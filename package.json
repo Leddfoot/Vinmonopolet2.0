@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "private": "true",
-  "scripts": {    
+  "scripts": {
     "testscript": "node server.js && npm run start",
     "build": "webpack",
     "watch": "webpack --watch",

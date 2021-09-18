@@ -3,9 +3,10 @@ import { preferredStore } from '../components/preferenceStorage'
 import { getSearchTermIsMultiple, getNext10OrFewerResults, setDisplayingHomeStore, getDisplayingHomestore, getStoreOpenStatus } from '../index'
 import { createSearchEventHandler } from '../components/searchEventHandler'
 import { generateClock } from '../components/clock'
-import gloriousLiquor from '../img/gloriousLiquor.jpg'
 
-let displayingIndividualStore = false
+
+let countdownTimer
+let displayingIndividualStore //note vs code marks this
 
 const renderScriptTag = () => {
     const faScriptTag = document.createElement('script')
@@ -200,45 +201,13 @@ const generateStoreDOM = (store) => {
 }
 
 const generateStorehoursHolidayDOM = () => {
-    const holidayHoursElement = document.createElement('span')
-    const holidayStatusTextElement = document.createElement('p')
-    const holidayOpenHours = document.createElement('p')
-    if (filteredHoliday[0].openingTime === undefined) {
-        holidayStatusTextElement.textContent = `The E-Lager is not open to the public`
-    }
     if (filteredHoliday[0].openingTime === "") {
-        holidayStatusTextElement.textContent = `This store is closed all day due to: ${filteredHoliday[0].message}`
+        
+        return `This store is closed all day due to: ${filteredHoliday[0].message}`
     } else {
-        holidayStatusTextElement.textContent = `This store is open for limited hours on this daydue to: ${filteredHoliday[0].message}`
-        holidayOpenHours.textContent = `This store will be open from ${filteredHoliday[0].openingTime} until ${filteredHoliday[0].closingTime}`
+         return `This store is open for limited hours on this day due to: ${filteredHoliday[0].message}. Special hours today are from ${filteredHoliday[0].openingTime} until ${filteredHoliday[0].closingTime}`
     }
-
-    holidayHoursElement.appendChild(holidayStatusTextElement)
-    holidayHoursElement.appendChild(holidayOpenHours)
-
-    return holidayHoursElement
 }
-
-/////////////////////may not need these 2 functions/////////
-/////////////////////may not need these 2 functions/////////
-/////////////////////may not need these 2 functions/////////
-// const generateStoreOpeningHoursDOM=(openingHoursText)=>{
-//     let openingHoursElement = document.createElement('div')
-//     openingHoursElement.setAttribute('id', 'opening-hours-element')
-//     openingHoursElement.textContent = openingHoursText
-//     return openingHoursElement
-// }
-
-// const renderStoreOpeningHours =(openingHoursElement)=> {
-//     removeDomElements('opening-hours-element')
-//     let storeInfoContentHolder = document.getElementById('store-info-content-holder')
-//     storeInfoContentHolder.appendChild(openingHoursElement)
-//         renderSearchAgainButton()
-// }
-
-/////////////////////may not need these 2 functions/////////
-/////////////////////may not need these 2 functions/////////
-/////////////////////may not need these 2 functions/////////
 
 const makeCurrentlyDisplayedStorePersisent = (store) => {
     let temporaryStorage = window.sessionStorage
@@ -273,6 +242,11 @@ const renderAriaCountdownElement = (openingHoursText) => {
     let pageMainElement = document.getElementById('page-main-element')
     const storeClosesInText = createCountdownText(timeUntilClosing)
     ariaCountDownElement.textContent = storeClosesInText
+
+    if (timeUntilClosing.hours <=1 && timeUntilClosing.minutes <=1) {
+        let storeClosesInText = `This store has already closed today.`
+        ariaCountDownElement.textContent = storeClosesInText
+    }
     pageMainElement.appendChild(ariaCountDownElement)
 }
 
@@ -310,35 +284,35 @@ const renderStoreAddress = (store) => {
     const holidays = storeInfo.openingHours.exceptionHours
     setSelectedStoreHolidays(holidays)
 
+    renderCountdownWrapper()
+    renderPhotoCredit()
+    renderSearchAgainButton()
+
     if (filteredHoliday !== null) {
         const holidayHoursElement = generateStorehoursHolidayDOM()
-        storeAddressHolder.appendChild(holidayHoursElement)
+        renderNotCurrentlyOpenText(holidayHoursElement)
+        return
     }
 
-    renderCountdownWrapper()
-
-    renderSearchAgainButton()
     decideCountdownElementContents(store, false) //NOTE: this false is used elsewhere to flag if the countdown has ended
-    console.log('store: ', store);
-    // renderAriaCountdownElement()
 }
 
 
 const generateStoreOpeningHoursText = (storeStatus, store) => {
-    let openingHoursText
     const selectedStore = store[0]
     const todayIntegerConverted = getTodayNumericConvertedToVinmonpolet()
     const closesTodayAt = selectedStore.openingHours.regularHours[todayIntegerConverted].closingTime
     const opensTodayAt = selectedStore.openingHours.regularHours[todayIntegerConverted].openingTime
 
-    if (selectedStore.storeId === '801') {
-        return openingHoursText = 'The E lager is not open to the public'
-    }
     if (storeStatus.closedAllDay === true) {
-        return openingHoursText = 'The store is closed all day today.'
+        let openingHoursText = 'The store is closed all day today. '
+        const todayNumericVinmonopolet = getTodayNumericConvertedToVinmonpolet()
+        let thisDayHasBeenChecked = true
+        const nextOpenText = findNextOpenDay(selectedStore, todayNumericVinmonopolet, thisDayHasBeenChecked)
+        openingHoursText += nextOpenText
+        return openingHoursText
     }
     if (storeStatus.hasClosed === true) {
-        console.log('selectedStore: ', selectedStore);
         let openingHoursText = `This store has already closed today at ${closesTodayAt}. `
         const todayNumericVinmonopolet = getTodayNumericConvertedToVinmonpolet()
         let thisDayHasBeenChecked = true
@@ -366,19 +340,17 @@ const renderNotCurrentlyOpenText = (openingHoursText) => {
 const decideCountdownElementContents = (store, countdownHasEnded) => {
     
     if (countdownHasEnded) {
-        
-        removeDomElements('countdown-wrapper')
+                removeDomElements('countdown-wrapper')
         removeDomElements('search-again-button')
+        removeDomElements('sr-only-closing-countdown')
         setTimeout(function() {
-            console.log('shit')
             renderCountdownWrapper()
             const storeStatus = generateStoreOpenStatus(store)
             const openingHoursText = generateStoreOpeningHoursText(storeStatus, store)
             renderNotCurrentlyOpenText(openingHoursText) 
             renderSearchAgainButton()
-          }, 1000)        
-
-
+            renderAriaCountdownElement(openingHoursText)
+          }, 1000)  
         return
     }
     
@@ -444,10 +416,6 @@ const renderCounter = () => {
     countdownWrapper.appendChild(secondWrapper)
 }
 
-
-
-
-let countdownTimer
 function startCountdownTimer() {
     let countdownWrapper = document.getElementById('countdown-wrapper')
     if (countdownWrapper.firstChild) {
@@ -471,32 +439,16 @@ function startCountdownTimer() {
     timeUntilClosing.minutes = Math.floor((timeLeft / 1000 / 60) % 60)
     timeUntilClosing.seconds = Math.floor((timeLeft / 1000) % 60)
 
-
     if (timeUntilClosing.hours <= 0 && timeUntilClosing.minutes <= 0 && timeUntilClosing.seconds === 0) {
-        console.log('in less than spot')
         clearTimeout(countdownTimer)
         decideCountdownElementContents(currentlySelectedStore, true) //NOTE: this true is used to show that the countdown has ended
         
     } else {
         renderTimeLeft(timeUntilClosing)
-            //////////////////temporary//////////////////////
-    //////////////////temporary//////////////////////
-    clearTimeout(countdownTimer)
-    //////////////////temporary//////////////////////
-    //////////////////temporary//////////////////////
-
-
-        // countdownTimer = setTimeout(startCountdownTimer, 1000)
+        countdownTimer = setTimeout(startCountdownTimer, 1000)
     }
 
 }
-
-
-
-
-
-
-
 
 const renderCountdownWrapper = () => {
     const countdownWrapper = document.createElement('div')
@@ -504,6 +456,18 @@ const renderCountdownWrapper = () => {
     countdownWrapper.setAttribute('aria-hidden', true)
 
     pageMainElement.appendChild(countdownWrapper)
+}
+
+const renderPhotoCredit = () => {
+    const photoCreditElement = document.createElement('div')    
+    photoCreditElement.setAttribute('id', 'photo-credit')
+    photoCreditElement.setAttribute('aria-hidden', true)
+    const photoCredit = document.createElement('a')
+    photoCredit.textContent += 'Photo by Maricar Limjoco on Unsplash'
+    photoCredit.setAttribute('href', 'https://unsplash.com/@icalimjoco?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText')
+    photoCreditElement.appendChild(photoCredit)
+
+    pageMainElement.appendChild(photoCreditElement)
 }
 
 const createCountdownText = (timeRemaining) => {
@@ -563,7 +527,6 @@ const renderTimeLeft = (timeUntilClosing) => {
     hoursLabelMobile.textContent = hoursLabelMobileText
     minutesLabelMobile.textContent = minutesLabelMobileText
     secondsLabelMobile.textContent = secondsLabelMobileText
-
 }
 
 const findNextOpenDay = (store, todayNumericVinmonopolet, thisDayHasBeenChecked) => {
@@ -603,7 +566,6 @@ const renderSearchAgainButton = () => {
     searchAgainButton.textContent = 'Check Another Store'
     searchAgainButton.setAttribute('id', 'search-again-button')
 
-
     searchAgainButton.addEventListener("click", (e) => {
         const temporaryStorage = window.sessionStorage
         temporaryStorage.clear()
@@ -615,11 +577,11 @@ const renderSearchAgainButton = () => {
         removeDomElements('store-address-holder')
         removeDomElements('search-again-button')
         removeDomElements('sr-only-closing-countdown')
+        removeDomElements('photo-credit')
 
         renderSearchElement()
 
     })
-    const storeInfoContentHolder = document.getElementById('store-info-content-holder')
     pageMainElement.appendChild(searchAgainButton)
 }
 
@@ -639,7 +601,6 @@ const generateSelectStoreDOMWithSearchTerm = (store, currentListOfStores) => {
         removeDomElements('list-of-store-choices')
         removeDomElements('sr-only-closing-countdown')
     }
-
 
     storeTextElement.addEventListener('click', storeWasSelected)
 
@@ -684,36 +645,24 @@ const checkforInvalidStore = (toBeChecked) => {
     }
 }
 
-const filterOutInvalidStoresFromList = () => {
-
-}
-
 
 const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
-
     displayingIndividualStore = false
     let showMoreResultsButtonExists = document.getElementById('show-more-results')
+
     if (showMoreResultsButtonExists !== null) {
         showMoreResultsButtonExists.remove()
     }
 
-    let listOfStoreChoicesExists = !!document.getElementById('list-of-store-choices')
-
-    if (listOfStoreChoicesExists) {
-        let listOfStoreChoices = document.getElementById('list-of-store-choices')
-    } else {
-        let listOfStoreChoices = document.createElement('div')
-        listOfStoreChoices.setAttribute('id', 'list-of-store-choices')
-        let pageMainElement = document.getElementById('page-main-element')
-        pageMainElement.appendChild(listOfStoreChoices)
-    }
-
+    let listOfStoreChoices = document.createElement('div')
+    listOfStoreChoices.setAttribute('id', 'list-of-store-choices')
+    let pageMainElement = document.getElementById('page-main-element')
+    pageMainElement.appendChild(listOfStoreChoices)
     let addSearchedFor = getSearchTermIsMultiple()
 
     if (addSearchedFor) {
         stores.forEach((store) => {
             const notValidStore = checkforInvalidStore(store)
-            console.log('notValidStore: ', notValidStore);
             if (notValidStore) {
                 return
             }
@@ -724,7 +673,6 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
     } else {
         stores.forEach((store) => {
             const notValidStore = checkforInvalidStore(store)
-            console.log('notValidStore: ', notValidStore);
             if (notValidStore) {
                 return
             }
@@ -733,8 +681,7 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
             listOfStoreChoices.appendChild(storeElement)
         })
     }
-
-
+    
     if (moreResultsToDisplay) {
         let listOfStoreChoices = document.getElementById('list-of-store-choices')
         let showMoreResultsButton = document.createElement('button')
@@ -749,12 +696,12 @@ const renderStores = (stores, moreResultsToDisplay, currentListOfStores) => {
 }
 
 const renderNoStoresFound = () => {
-    let storeInfoContentHolder = document.createElement('div')
-    storeInfoContentHolder.setAttribute('id', 'no-stores-found')
+    let noStoresContentHolder = document.createElement('div')
+    noStoresContentHolder.setAttribute('id', 'no-stores-found')
     const searchAgainTextElement = document.createElement('h1')
     searchAgainTextElement.textContent = 'No stores Found. Search Again'
-    storeInfoContentHolder.appendChild(searchAgainTextElement)
-    pageMainElement.appendChild(storeInfoContentHolder)
+    noStoresContentHolder.appendChild(searchAgainTextElement)
+    pageMainElement.appendChild(noStoresContentHolder)
 }
 
 const removeDomElements = (elementToDestroy) => {
@@ -771,4 +718,4 @@ const removeDomElements = (elementToDestroy) => {
     }
 }
 
-export { renderHomeStoreButton, renderScriptTag, renderPageMainElement, checkforInvalidStore, filterOutInvalidStoresFromList, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements }
+export { renderHomeStoreButton, renderScriptTag, renderPageMainElement, checkforInvalidStore, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements }

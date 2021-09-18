@@ -1,8 +1,7 @@
 'use strict'
 import './style.css'
-import { getStoresSingleQuery, getStoreById } from './components/requests'
-
-import { renderHomeStoreButton, renderScriptTag, renderPageMainElement, checkforInvalidStore, filterOutInvalidStoresFromList, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements } from './views/createPage'
+import { getStoresSingleQuery, getHomeStoreQuery } from './components/requests' 
+import { renderHomeStoreButton, renderScriptTag, renderPageMainElement, checkforInvalidStore, renderStores, renderStoreAddress, renderFooter, renderNoStoresFound, renderHeader, renderClockDom, renderSearchElement, renderTimeAndDate, removeDomElements } from './views/createPage'
 import { preferredStore } from './components/preferenceStorage'
 
 let haveDownloadedEntireList = false
@@ -49,9 +48,7 @@ const handleQueryAllInfoIsDownloaded =(searchTerm)=> {
 
 if (!searchTermIsMultiple) {
   getentireListOfStores()
-  console.log('entireListOfStoresxx: ', entireListOfStores);
   const filteredStoreList = filterResults(entireListOfStores, searchTerm)
-  console.log('filteredStoreListxx: ', filteredStoreList);
   handlePossibleMatches(filteredStoreList)
   } else {
     let multipleSearchTerms = handleMultipleSearchTerms.divideSearchTerms(searchTerm)
@@ -74,7 +71,6 @@ const filterMultiSearches = (multipleSearchTerms) => {
 
 const handleSingleQueryResults = function (result, searchTerm){ 
       currentListOfStores = [...result]
-      console.log('currentListOfStores: ', currentListOfStores);
       handlePossibleMatches(result, searchTerm) 
 }
 
@@ -186,7 +182,6 @@ const getNext10OrFewerResults = (currentListOfStores) => {
 }
 
 const filterResults = function (stores, searchTerm){
-  console.log('storesrrrrrrrrr: ', stores);
   return stores.filter(function (store) {
     
     const isCityMatch = store.address.city.toLowerCase().includes(searchTerm.toString().toLowerCase())
@@ -200,8 +195,12 @@ const filterResults = function (stores, searchTerm){
 }
 
 const handleHomeStore =() =>{
-  console.log('TODO: test against exception hours...see commented example at end of index.js')
-  console.log('TODO: check that aria counter works')
+  console.log('BUG:something has pushed the homestore button up off page, think that it is the photo credit must fix')
+  console.log('todo:finish cleanup--check for you are or console.logs or')
+  console.log('maybe on errors i can display a search page with an error message??????????????')
+  console.log('push to github')
+  console.log('deploy on heroku')
+
   let homeStore = preferredStore.initialize()
 
   if (homeStore !== 'none set') {
@@ -210,10 +209,10 @@ const handleHomeStore =() =>{
 
     let homeStoreId = preferredStore.getHomeStore()
 
-        //////////////////temporary
-    //////////////////temporary
+ 
+
     const fetchHomeStoreInfo = async ()=> {
-      const homeStoreInfo = await getStoreById(homeStoreId)
+      const homeStoreInfo = await getHomeStoreQuery(homeStoreId)
       return homeStoreInfo
     }
 
@@ -221,19 +220,6 @@ const handleHomeStore =() =>{
     fetchHomeStoreInfo().then((result) => {
       renderStoreAddress(result)
     })
-    //////////////////temporary
-    //////////////////temporary
-
-    // const fetchHomeStoreInfo = async ()=> {
-    //   const homeStoreInfo = await getHomeStoreQuery(homeStoreId)
-    //   return homeStoreInfo
-    // }
-
-    
-    // fetchHomeStoreInfo().then((result) => {
-    //   console.log('renderStoreAddress from fetchHomeStoreInfo: ');
-    //   renderStoreAddress(result)
-    // })
 
   } else {
     setDisplayingHomeStore(false)
@@ -246,45 +232,6 @@ handleHomeStore()
 export { setEntireListOfStores, handleQueryAllInfoIsDownloaded, handleSingleQueryResults, getHaveDownloadedEntireList, haveDownloadedEntireList, getSearchTermIsMultiple, getNext10OrFewerResults, setSearchTermIsMultiple, listToPaginate, setDisplayingHomeStore, getStoreOpenStatus, getDisplayingHomestore, displayingHomeStore, currentListOfStores, setStoreOpenStatus, handleMultipleSearchTerms, getMultiFetches }
 
 
-// "exceptionHours": {
-//   "type": "array",
-//   "items": {
-//       "type": "object",
-//       "properties": {
-//           "date": {
-//               "type": "string",
-//               "description": "Exception date"
-//           },
-//           "openingTime": {
-//               "type": "string",
-//               "description": "Opening hours"
-//           },
-//           "closingTime": {
-//               "type": "string",
-//               "description": "Closing hours"
-//           },
-//           "message": {
-//               "type": "string",
-//               "description": ""
-//           }
-//       }
-
-
-
-    ////////////////////temporary
-    ////////////////////temporary
-    // const fetchHomeStoreInfo = async ()=> {
-    //   const homeStoreInfo = await getStoreById(homeStoreId)
-    //   return homeStoreInfo
-    // }
-
-    
-    // fetchHomeStoreInfo().then((result) => {
-    //   renderStoreAddress(result)
-    // })
-    ////////////////////temporary
-    ////////////////////temporary
- 
   
   
  

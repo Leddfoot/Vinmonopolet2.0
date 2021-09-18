@@ -5,7 +5,6 @@ let preferredStore = {
         }
     }, getHomeStore: function () {
         return localStorage.getItem("homeStoreId") || 'none set'
-        // return 'none set' //temporary testing
     }, setHomeStore: function (storeId) {     
         localStorage.setItem("homeStoreId", storeId)
     }

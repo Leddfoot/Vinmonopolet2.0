@@ -67,7 +67,6 @@ const handleQuerySubmission =(searchTerm)=> { //This is what makes everything ef
       getMultiFetches(searchTerm)
     }
   } else {
-    console.log('here is th e bullshti')
     handleQueryAllInfoIsDownloaded(searchTerm)
   }
 }

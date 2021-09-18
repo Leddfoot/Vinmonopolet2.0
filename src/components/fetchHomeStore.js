@@ -19,7 +19,6 @@ const fetchHomeStore = (searchTerm, callback) => {
       if (error) {
           callback('Unable to connect to vinmonopolet service!', undefined)
       } else if (body.error) {
-          console.log(body.error)
           callback('The vinmonopolet api didnt like that search', undefined)
       } else {
           callback(undefined, body)
