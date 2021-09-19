@@ -62,12 +62,13 @@ const getTodayNumericConvertedToVinmonpolet =()=>{
 }
 
  const generateStoreOpenStatus = (store)=>{
-    let now2 = '' ;
+    let now2 = '' 
     now2 = Date.now()
 
     let status = {}   
 
     if (store[0].status !== 'Open') { //Note that this is status in the store info from the API, not the status being set
+        
         status.closedAllDay = true
         status.isOpen = false
     }
@@ -131,6 +132,6 @@ const convertTimeStringToProperDate =(timeString)=> {
     return convertedTime    
 }
 
-const bullshit =()=>{}
 
-export { bullshit, setSelectedStoreHolidays, isTodayHoliday, filteredHoliday, formattedCurrentTime, todayDateForDisplay, generateStoreOpenStatus, convertTimeStringToProperDate, formatCurrentTime, getTodayNumericConvertedToVinmonpolet }
+
+export { setSelectedStoreHolidays, isTodayHoliday, filteredHoliday, formattedCurrentTime, todayDateForDisplay, generateStoreOpenStatus, convertTimeStringToProperDate, formatCurrentTime, getTodayNumericConvertedToVinmonpolet }

@@ -512,7 +512,7 @@ const renderTimeLeft = (timeUntilClosing) => {
     const minutesLabelMobile = document.getElementById('minutes-label-mobile')
     const secondsLabelMobile = document.getElementById('seconds-label-mobile')
 
-    const hoursLabelText = (hoursRemaining !== 1) ? 'Hours' : 'Hour' //note it should be 0 hours not 0 hour & 1hour same applies below
+    const hoursLabelText = (hoursRemaining !== 1) ? 'Hours' : 'Hour' //note it should be 0 hours not 0 hour & 1 hour same applies below
     const minutesLabelText = (minutesRemaining !== 1) ? 'Minutes' : 'Minute'
     const secondsLabelText = (secondsRemaining !== 1) ? 'Seconds' : 'Second'
 
@@ -531,15 +531,14 @@ const renderTimeLeft = (timeUntilClosing) => {
 
 const findNextOpenDay = (store, todayNumericVinmonopolet, thisDayHasBeenChecked) => {
     //NOTE THIS IS ONLY USED AFTER THE STORE HAS CLOSED FOR TODAY, and that stores are not open on Sundays
-    //That is why the 5(saturday) is used below to check monday
+    //That is why the 5(saturday or 6 sunday) is used below to check monday
     //Note JS uses 0 to represent sunday, vinmonpolet uses 0 to represent monday 
     
     const openingTimes = store.openingHours.regularHours
 
-    if (todayNumericVinmonopolet === 5) { //
+    if (todayNumericVinmonopolet >= 5) { //
         let thisDayHasBeenChecked = false
-        findNextOpenDay(store, 0, thisDayHasBeenChecked)
-        return
+        return findNextOpenDay(store, 0, thisDayHasBeenChecked)       
     }
 
     const nextDay = (thisDayHasBeenChecked === false) ? todayNumericVinmonopolet : todayNumericVinmonopolet + 1
