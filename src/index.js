@@ -195,10 +195,8 @@ const filterResults = function (stores, searchTerm){
 }
 
 const handleHomeStore =() =>{
-  console.log('BUG:something has pushed the homestore button up off page, think that it is the photo credit must fix')
   console.log('todo:finish cleanup--check for you are or console.logs or')
   console.log('maybe on errors i can display a search page with an error message??????????????')
-  console.log('push to github')
   console.log('deploy on heroku')
 
   let homeStore = preferredStore.initialize()
