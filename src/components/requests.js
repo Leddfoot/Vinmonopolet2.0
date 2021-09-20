@@ -1,7 +1,8 @@
 import { handleSingleQueryResults, setEntireListOfStores } from '../index'
 
 const fetchStoreInfo = async (searchTerm, getAllStores)=> {
-  let url = 'http://localhost:3000/vinmonopolet?city=' + searchTerm
+  // let url = 'http://localhost:3000/vinmonopolet?city=' + searchTerm //changing for heroku deployment
+  let url = '/vinmonopolet?city=' + searchTerm
   if (getAllStores) {
     url += '&getallstores=true'
   }
@@ -16,7 +17,8 @@ const fetchStoreInfo = async (searchTerm, getAllStores)=> {
 }
 
 const fetchHomeStore = async (id)=> {
-  const response = await fetch('http://localhost:3000/homestore?id=' + id)
+  // const response = await fetch('http://localhost:3000/homestore?id=' + id) //changing for heroku deployment
+  const response = await fetch('/homestore?id=' + id)
   if (response.status === 200) {
     const data = response.json()
     return data

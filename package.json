@@ -4,10 +4,10 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "testscript": "node server.js && npm run start",
+    "testscript": "webpack serve --open --port 3001",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "webpack serve --open --port 3001",
+    "start": "node server.js", 
     "server": "node server.js"
   },
   "keywords": [],
