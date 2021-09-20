@@ -7,7 +7,7 @@
     "testscript": "webpack serve --open --port 3001",
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "node server.js", 
+    "start": "node server.js",
     "server": "node server.js"
   },
   "keywords": [],
