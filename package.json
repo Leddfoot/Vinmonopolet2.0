@@ -4,11 +4,12 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "testscript": "webpack serve --open --port 3001",
+    "dev": "webpack serve --open --port 3001",
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "node server.js",
-    "server": "node server.js"
+    "server": "node server.js",
+    "heroku-postbuild": "webpack -p"
   },
   "keywords": [],
   "author": "",
