@@ -25,6 +25,7 @@
     "webpack-dev-server": "^4.0.0"
   },
   "dependencies": {
+    "webpack": "^5.51.1",
     "express": "*",
     "postman-request": "^2.88.1-postman.30",
     "webpack-hot-middleware": "^2.25.0"
