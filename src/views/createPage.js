@@ -12,7 +12,7 @@ let displayingIndividualStore //note vs code marks this as unused but it is used
     var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
     link.type = 'image/x-icon';
     link.rel = 'shortcut icon';
-    link.href = 'https://leddfoot-test.herokuapp.com/favicon.ico';
+    link.href = 'https://leddfoot-test.herokuapp.com/logo.ico';
     document.getElementsByTagName('head')[0].appendChild(link);
 })();
 
