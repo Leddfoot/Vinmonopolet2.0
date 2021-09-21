@@ -8,13 +8,6 @@ import { generateClock } from '../components/clock'
 let countdownTimer
 let displayingIndividualStore //note vs code marks this as unused but it is used and will cause an error if removed
 
-(function() {
-    var link = document.querySelector("link[rel*='icon']") || document.createElement('link')
-    link.rel = 'icon';
-    link.href = 'https://leddfoot-test.herokuapp.com/favicon.ico';
-    document.getElementsByTagName('head')[0].appendChild(link);
-})();
-
 const renderScriptTag = () => {
     const faScriptTag = document.createElement('script')
     faScriptTag.setAttribute('src', 'https://kit.fontawesome.com/7d47c5782b.js')
