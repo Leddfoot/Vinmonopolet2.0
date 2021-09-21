@@ -2,7 +2,7 @@ import { handleSingleQueryResults, setEntireListOfStores } from '../index'
 
 const fetchStoreInfo = async (searchTerm, getAllStores)=> {
   // let url = 'http://localhost:3000/vinmonopolet?city=' + searchTerm //changing for heroku deployment
-  let url = ('https://leddfoot-test.herokuapp.com/homestore?id=135' )
+  let url = ('https://leddfoot-test.herokuapp.com/homestore?id=' + searchTerm)
   // let url = 'https://leddfoot-test.herokuapp.com/vinmonopolet?city=' + searchTerm
             //  https://leddfoot-test.herokuapp.com/vinmonopolet?city=oslo
   if (getAllStores) {
