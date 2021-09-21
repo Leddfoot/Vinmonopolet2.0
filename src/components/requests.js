@@ -22,8 +22,8 @@ const fetchStoreInfo = async (searchTerm, getAllStores)=> {
 }
 
 const fetchHomeStore = async (id)=> {
-  const response = await fetch('http://localhost:3000/homestore?id=' + id) //changing for heroku deployment
-  // const response = await fetch('https://leddfoot-test.herokuapp.com/homestore?id=' + id)
+  // const response = await fetch('http://localhost:3000/homestore?id=' + id) //changing for heroku deployment
+  const response = await fetch('https://leddfoot-test.herokuapp.com/homestore?id=' + id)
   if (response.status === 200) {
     const data = response.json()
     return data
