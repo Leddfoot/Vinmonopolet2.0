@@ -12,7 +12,7 @@ const fetchVinmonopolet = (searchTerm, getAllStores, callback) => {
     url: url, 
     headers: {
       'Cache-Control': 'no-cache',
-      'Ocp-Apim-Subscription-Key': test    
+      'Ocp-Apim-Subscription-Key': key    
     } 
   
   }
