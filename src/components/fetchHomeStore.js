@@ -1,6 +1,8 @@
 const request = require('postman-request')
-const config = require('./config')
-const key = config.vinMonopoletAPIKeyPrimary
+// const config = require('./config')
+// const key = config.vinMonopoletAPIKeyPrimary
+
+const key = process.env.vinMonopoletAPIKeyPrimary
 
 
 const fetchHomeStore = (searchTerm, callback) => {

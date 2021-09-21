@@ -1,6 +1,8 @@
 const request = require('postman-request')
-const config = require('./config')
-const test = config.vinMonopoletAPIKeyPrimary
+// const config = require('./config')
+// const key = config.vinMonopoletAPIKeyPrimary
+
+const key = process.env.vinMonopoletAPIKeyPrimary
 
 
 const fetchVinmonopolet = (searchTerm, getAllStores, callback) => {
