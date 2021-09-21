@@ -9,9 +9,8 @@ let countdownTimer
 let displayingIndividualStore //note vs code marks this as unused but it is used and will cause an error if removed
 
 (function() {
-    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-    link.type = 'image/x-icon';
-    link.rel = 'shortcut icon';
+    var link = document.querySelector("link[rel*='icon']") || document.createElement('link')
+    link.rel = 'icon';
     link.href = 'https://leddfoot-test.herokuapp.com/favicon.ico';
     document.getElementsByTagName('head')[0].appendChild(link);
 })();
