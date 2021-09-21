@@ -25,6 +25,7 @@ TO RUN THIS DEPLOYMENT YOURSELF -- you need an API key.
 --- the output path in webpack config has to be changed to http://localhost:3000/
 
 ---create a config file (config.js), in src/components,  which is just an exported object: 
+
 const config = {
     vinMonopoletAPIKeyPrimary: 'YOUR-API-KEY-HERE'
 }
