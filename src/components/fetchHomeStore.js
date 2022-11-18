@@ -1,13 +1,13 @@
 const request = require('postman-request')
-// const config = require('./config')
-// const key = config.vinMonopoletAPIKeyPrimary
 
-const key = process.env.vinMonopoletAPIKeyPrimary
-
+const key = process.env.apiKey
 
 const fetchHomeStore = (searchTerm, callback) => {
+  console.log('callback: ', callback);
+  console.log('searchTerm: ', searchTerm);
 
   const options = {
+    
     json: true,
     url: 'https://apis.vinmonopolet.no/stores/v0/details?storeId=', 
     headers: {
@@ -17,6 +17,8 @@ const fetchHomeStore = (searchTerm, callback) => {
   
   }
   options.url += searchTerm
+  console.log('options.url: ', options);
+
   request(options, (error, { body }) => {
       if (error) {
           callback('Unable to connect to vinmonopolet service!', undefined)

@@ -1,13 +1,13 @@
 const request = require('postman-request')
-// const config = require('./config')
-// const key = config.vinMonopoletAPIKeyPrimary
 
-const key = process.env.vinMonopoletAPIKeyPrimary
+const key = process.env.apiKey
+console.log('key: ', key);
 
 
 const fetchVinmonopolet = (searchTerm, getAllStores, callback) => {
   let url = 'https://apis.vinmonopolet.no/stores/v0/details?storeNameContains='
   const options = {
+    
     json: true,
     url: url, 
     headers: {
@@ -17,6 +17,7 @@ const fetchVinmonopolet = (searchTerm, getAllStores, callback) => {
   
   }
   options.url += searchTerm
+  console.log('options: ', options);
   if (getAllStores) {
     options.url = 'https://apis.vinmonopolet.no/stores/v0/details'
   }

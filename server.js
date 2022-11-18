@@ -3,6 +3,8 @@ const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const path = require('path')
 const port = process.env.PORT || 3000
+const apiKeyContainer = require('./src/config/apiKey')
+process.env.apiKey = apiKeyContainer.vinMonopoletAPIKeyPrimary
 
 const fetchVinmonopoletfilePath = path.join(__dirname, '/src/components/fetchVinmonopolet.js')
 const fetchVinmonopolet = require(fetchVinmonopoletfilePath)
@@ -65,12 +67,12 @@ app.use(
   })
 );
 
-// // Serve the files on port 3000.
-// app.listen(3000, function () {
-//   console.log('Server is up on port 3000.\n');
-// })
-
-// Changing above for heroku deployment
-app.listen(port, function () {
-  console.log(`Server is up on port ${port}\n`);
+// Serve the files on port 3000.
+app.listen(3000, function () {
+  console.log('Server is up on port 3000.\n');
 })
+
+// // Changing above for heroku deployment
+// app.listen(port, function () {
+//   console.log(`Server is up on port ${port}\n`);
+// })

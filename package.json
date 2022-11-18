@@ -4,7 +4,7 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "dev": "webpack serve --open --port 3001",
+    "dev": "webpack serve --open --port 3000",
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "node server.js",
